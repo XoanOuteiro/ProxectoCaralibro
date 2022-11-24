@@ -26,9 +26,9 @@ public class XeradorMenus {
         System.out.println("[1] to create an account.");
         System.out.println("[2] to login to existing account");
         
-        //Cycle loop is existed upon detecting a valid intput 
+        //Cycle loop is existed upon detecting a valid intput that swaps to another menu
         Scanner reads = new Scanner(System.in);
-        boolean hasPicked = false;
+        boolean hasChangedMenu = false;
         
         do{
             int input = reads.nextInt();
@@ -48,7 +48,7 @@ public class XeradorMenus {
                     
                     
             }
-        }while(!hasPicked);
+        }while(!hasChangedMenu);
     }
     
     public void crearPerfil(){
