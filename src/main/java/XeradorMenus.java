@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class XeradorMenus {
     //Compilation atributes
     CaraLibroBD data;
-    int input;
+    String input;
     Perfil current;
     
     //Construction methods
@@ -34,30 +34,129 @@ public class XeradorMenus {
             System.out.println("[2] to login to existing account");
             
             
-            reads.nextLine();                                                   //Required collapse for iteration skips     
+            //So that we dont need exceptions we will do all compares to String 
             try{
                 
-                input = reads.nextInt(); 
+                input = reads.nextLine(); 
                 
             }catch (Exception InputMismatchException){continue;}                //Skip this iteration
             
             //Expand as needed
             switch (input){
   
-                case 1:
+                case "1":
                     crearPerfil();
                     break;
                     
-                case 2:
+                case "2":
                     iniciarSesion();
-                    //hasChangedMenu = true;                                      //Once we succesfully have a session we close this menu and go to MainMenu
-                    if(current != null){
-                        //Main menu here
+                                                                                 //Once we succesfully have a session we go to MainMenu
+                    if(current != null){                                         //At 26/12 this condition crashes or isnt met, fixed 14:41 
+                        clr();
+                        mostrarMenuPrincipal();
                     }
                     break;
                     
                 default:
                     System.out.println(">Input not valid, please try again");                
+            }
+            
+        }while(!hasChangedMenu);
+    }
+    
+    public void mostrarMenuPrincipal(){
+        //Method atributes
+        boolean hasChangedMenu = false;
+        Scanner reads = new Scanner(System.in);
+        String input;
+        
+        //Logic
+        do{
+            clr();
+            System.out.println("-Current user:" +  current.getNome());
+            System.out.println("-[1] State");
+            System.out.println("-[2] Biography");
+            System.out.println("-[0] Close session");
+            
+
+            try{
+                input = reads.nextLine();
+            }catch(Exception InputMismatchException){
+                System.out.println(">That input was not valid, please try again");
+                continue;
+            }
+            
+            switch (input){
+                
+                case "1":                                                         //Consider the option to call a different method in case 1 containing this logic
+                    if(current.getEstado() == null){
+                        
+                        System.out.println(">You have not set a state yet.");
+                        System.out.println(">Please write a new state: ");
+                        
+                        String newState = reads.nextLine();
+                        current.setEstado(newState);
+                        
+                    } else {
+                        
+                        System.out.println(">Current state: " + current.getEstado());
+                        System.out.println(">Press [1] if you wish to change your state. Any other number to continue");
+                        
+                        input = reads.nextLine();
+                        
+                        switch(input){
+                            
+                            case "1":
+                                
+                                System.out.println(">Please write a new state: ");
+                                
+                                String newState = reads.nextLine();
+                                current.setEstado(newState);
+                                break;
+                                
+                            default:
+                                break;
+                                
+                        }
+                    }
+                    break;
+                    
+                case "2":
+                    if (current.getBiography() == null){
+                        
+                        System.out.println(">You have not set a biography yet.");
+                        System.out.println(">Please write a new biography: ");
+                        
+                        String newBiography = reads.nextLine();
+                        current.setBiography(newBiography);
+                        
+                    } else {
+                        
+                        System.out.println(">Current biography: " + current.getBiography());
+                        System.out.println(">Press [1] if you wish to change the biography. Any other number to continue");
+                        
+                        input = reads.nextLine();
+                        
+                        switch(input){
+                            case "1":
+                                
+                                System.out.println(">Please write new biography: ");
+                                
+                                String newBiography = reads.nextLine();
+                                current.setBiography(newBiography);
+                                break;
+                                
+                            default:
+                                break;
+                        }
+                    }
+                case "0":
+                    current = null;
+                    hasChangedMenu = true;
+                    break;
+                
+                default:
+                    System.out.println(">That input was not valid please try again.");
             }
             
         }while(!hasChangedMenu);
@@ -80,10 +179,10 @@ public class XeradorMenus {
         System.out.println("-Write your password");
         String psswd = reads.nextLine();
         
-        Perfil current = this.data.obterPerfil(usrName, psswd);                 //Pull user from database if exists
+        current = this.data.obterPerfil(usrName, psswd);                 //Pull user from database if exists
         
         if(current == null){                                                    //Check user isnt none
-            System.out.println(">This user does not exist or the password was not correct.");
+            System.out.println(">This user does not exist or the password was not correct");
                                                                                 //Ask to try login again or create account
         } else{
             System.out.println(">Logged in as: " + current.getNome());
@@ -119,7 +218,7 @@ public class XeradorMenus {
     }
     
     public void clr(){                                                                 //Creates 30 whitespace linebreaks as a method to clear screen
-        for(int jump = 0; jump < 30; jump++){
+        for(int jump = 0; jump < 60; jump++){
             System.out.println();
         }
     }

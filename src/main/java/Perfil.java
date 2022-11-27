@@ -8,6 +8,9 @@ public class Perfil {
     String contrasinal;
     String estado;
     
+    //Non-necessary atributes
+    String biography;
+    
     //Construction methods
     public Perfil(String nome, String contrasinal){
         this.nome = nome;
@@ -39,7 +42,16 @@ public class Perfil {
     public void setEstado(String estado) {
         this.estado = estado;
     }
+
+    public void setBiography(String biography) {
+        this.biography = biography;
+    }
+    
     
     //Utility methods
+
+    public String getBiography() {
+        return biography;
+    }
   
 }
