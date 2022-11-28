@@ -57,9 +57,14 @@ public class XeradorMenus {
                     }
                     break;
                     
+                case "ct":
+                    ctCommand();
+                    break;
+                    
                 default:
                     System.out.println(">Input not valid, please try again");                
             }
+            clr();
             
         }while(!hasChangedMenu);
     }
@@ -224,5 +229,46 @@ public class XeradorMenus {
         for(int jump = 0; jump < 60; jump++){
             System.out.println();
         }
+    }
+    
+    
+    /*
+    This debugings console provides simple automatisms for the initial menu
+    */
+    private void ctCommand(){
+        boolean hasExtd = false;
+        Scanner reads = new Scanner(System.in);
+        
+        do{
+            
+        System.out.println("CT:/");
+        
+        
+        switch(reads.nextLine()){
+            
+            case "add lib":                                                     //Adds an amount of users
+                this.data.engadirPerfil(new Perfil("a1","a1"));
+                this.data.engadirPerfil(new Perfil("a22xoanmoj","a22"));
+                this.data.engadirPerfil(new Perfil("bmo","bmo_"));
+                this.data.engadirPerfil(new Perfil("rotary","rot21"));
+                this.data.engadirPerfil(new Perfil("jess","123abc."));
+                this.data.engadirPerfil(new Perfil("anon12","lolmao"));
+                this.data.engadirPerfil(new Perfil("kev","javac"));
+                this.data.engadirPerfil(new Perfil("user","user"));
+                System.out.println("CT:/[OK] 8 users added.");
+                break;
+                
+            case "exit":
+                hasExtd = true;
+                break;
+            
+            default:
+                System.out.println("CT:/[Error] InputNotValid");
+                break;
+                
+        }
+        
+        }while (!hasExtd);
+        
     }
 }
