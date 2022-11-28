@@ -21,7 +21,7 @@ public class XeradorMenus {
     
     public void mostrarMenuInicial(){
         doLogo();
-        System.out.println("--Welcome to CaraLibro v0.0.1");
+        System.out.println("--Welcome to CaraLibro v0.0.7");
         System.out.println("--To continue please press an option number and the [ENTER_KEY]");
         
         //Cycle loop is existed upon detecting a valid intput that swaps to another menu
@@ -150,6 +150,8 @@ public class XeradorMenus {
                                 break;
                         }
                     }
+                    break;
+                    
                 case "0":
                     current = null;
                     hasChangedMenu = true;
@@ -157,6 +159,7 @@ public class XeradorMenus {
                 
                 default:
                     System.out.println(">That input was not valid please try again.");
+                    break;
             }
             
         }while(!hasChangedMenu);

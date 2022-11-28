@@ -16,8 +16,6 @@ public class CaraLibroBD {
     }
 
     //Getters & Setters
-    
-    
     //Utility methods
     public void engadirPerfil(Perfil novoPerfil) {                              //Adding requires a Perfil obj which we will -ALWAYS- create on call
         this.base.add(novoPerfil);
@@ -28,10 +26,8 @@ public class CaraLibroBD {
         for (Perfil base : this.base) {
             if (base.getNome().equals(nome) && base.getContrasinal().equals(contrasinal)) {
                 return base;
-            } else {
-                return null;                                                    //Outside the method we check for null
             }
         }
-        return null;                                                            //Compilation statement, this is never read.
+        return null;
     }
 }
