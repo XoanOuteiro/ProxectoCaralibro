@@ -256,14 +256,20 @@ public class XeradorMenus {
     }
     
     public void printFriendList(){
+        Scanner reads = new Scanner(System.in);
         for(int cycle = 0; cycle <= current.friendList.size(); cycle++){
-            System.out.println("> " + current.friendList.get(cycle));
+            System.out.println("> " + current.friendList.get(cycle));   
         }
+        System.out.println(">Press enter to continue.");
+        reads.nextLine();
     }
     public void printFriendRequestList(){
+        Scanner reads = new Scanner(System.in);
         for(int cycle = 0; cycle <= current.friendList.size(); cycle++){
-            System.out.println("> " + current.friendRequest.get(cycle));
+            System.out.println("> " + current.friendRequest.get(cycle) + " wants to be your friend");
         }
+        System.out.println(">Press enter to continue.");
+        reads.nextLine();
     }
 
     //Sthetics
