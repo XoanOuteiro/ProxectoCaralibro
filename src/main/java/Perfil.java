@@ -1,3 +1,6 @@
+
+import java.util.ArrayList;
+
 /**
  *
  * by @XoanOuteiro & @Samuyo
@@ -10,11 +13,13 @@ public class Perfil {
     
     //Non-necessary atributes
     String biography;
+    ArrayList <String> listaAmigos;
     
     //Construction methods
     public Perfil(String nome, String contrasinal){
         this.nome = nome;
         this.contrasinal = contrasinal;
+        this.listaAmigos = new ArrayList<>();
     }
     
     //Getters & Setters
