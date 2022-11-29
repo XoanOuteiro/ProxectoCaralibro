@@ -48,4 +48,14 @@ public class CaraLibroBD {
         }
         return false;
     }
+    
+    /*
+    Shows all users 
+    */
+    public void pingUsers(){
+        for (Perfil base : this.base) {
+            System.out.println("CT:/ [@Ping] detected " + base.getNome() + " / " + base.getContrasinal());
+        }
+
+    }
 }

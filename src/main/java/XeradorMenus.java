@@ -95,7 +95,7 @@ public class XeradorMenus {
                 case "1":                                                         //Consider the option to call a different method in case 1 containing this logic
                     if (current.getEstado() == null) {
 
-                        System.out.println(">You have not set a state yet.");
+                        System.out.println(">You have not set a state yet.");   //If the user has no state we ask them to write one
                         System.out.println(">Please write a new state: ");
 
                         String newState = reads.nextLine();
@@ -103,8 +103,7 @@ public class XeradorMenus {
 
                     } else {
 
-                        System.out.println(">Current state: " + current.getEstado());
-                        System.out.println(">Press [1] if you wish to change your state. Any other number to continue");
+                        System.out.println(">Current state: " + current.getEstado());   //If they have a state they have the option to change it                        System.out.println(">Press [1] if you wish to change your state. Any other number to continue");
 
                         input = reads.nextLine();
 
@@ -253,11 +252,16 @@ public class XeradorMenus {
                 case "exit":
                     hasExtd = true;
                     break;
+                
+                case "ping":
+                    this.data.pingUsers();
+                    break;
 
+                    
                 default:
                     System.out.println("CT:/[Error] InputNotValid");
                     break;
-
+                
             }
 
         } while (!hasExtd);
