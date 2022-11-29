@@ -113,7 +113,7 @@ public class XeradorMenus {
                             
                             case "1":
                                 
-                                System.out.println(">Please write a new state: ");
+                                System.out.println(">Please, write a new state: ");
                                 
                                 String newState = reads.nextLine();
                                 current.setEstado(newState);
@@ -145,7 +145,7 @@ public class XeradorMenus {
                         switch(input){
                             case "1":
                                 
-                                System.out.println(">Please write new biography: ");
+                                System.out.println(">Please, write new biography: ");
                                 
                                 String newBiography = reads.nextLine();
                                 current.setBiography(newBiography);
