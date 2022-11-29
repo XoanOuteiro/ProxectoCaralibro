@@ -63,6 +63,7 @@ public class XeradorMenus {
 
                 default:
                     System.out.println(">Input not valid, please try again");
+                    break;
             }
             clr();
 
@@ -81,6 +82,7 @@ public class XeradorMenus {
             System.out.println("-Current user:" + current.getNome());
             System.out.println("-[1] State");
             System.out.println("-[2] Biography");
+            System.out.println("-[3] FriendList");
             System.out.println("-[0] Close session");
 
             try {
@@ -92,7 +94,7 @@ public class XeradorMenus {
 
             switch (input) {
 
-                case "1":                                                         //Consider the option to call a different method in case 1 containing this logic
+                case "1":             //Consider the option to call a different method in each case containing this logic
                     if (current.getEstado() == null) {
 
                         System.out.println(">You have not set a state yet.");   //If the user has no state we ask them to write one
@@ -155,6 +157,10 @@ public class XeradorMenus {
                     }
                     break;
 
+                case "3":
+                    friendMenu();
+                    break;
+
                 case "0":
                     current = null;
                     hasChangedMenu = true;
@@ -179,7 +185,7 @@ public class XeradorMenus {
             String psswd = reads.nextLine();
 
             if (this.data.lookFor(usrName)) {
-               System.out.println(">That username is already taken please try another one."); 
+                System.out.println(">That username is already taken please try another one.");
             } else {
                 this.data.engadirPerfil(new Perfil(usrName, psswd));
                 done = true;
@@ -196,7 +202,7 @@ public class XeradorMenus {
 
         current = this.data.obterPerfil(usrName, psswd);                 //Pull user from database if exists
 
-        if (current == null) {                                                    //Check user isnt none
+        if (current == null) {                                                          //Check user isnt none
             System.out.println(">This user does not exist or the password was not correct");
             //Ask to try login again or create account
         } else {
@@ -206,6 +212,60 @@ public class XeradorMenus {
     }
 
     //Secondary menus
+    public void friendMenu() {
+        boolean hasChanged = false;
+        Scanner reads = new Scanner(System.in);
+
+        do {
+            clr();
+            System.out.println("-You currently have " + current.friendRequest.size() + " pending friend requests");
+            System.out.println("[1] to send a friend request");
+            System.out.println("[2] to see friend requests");
+            System.out.println("[3] to see FriendList");
+            System.out.println("[0] to exit menu");
+            
+            String input = reads.nextLine();
+            
+            switch (input){
+                case "1":
+                    System.out.println(">Who do you want to add as a friend?");
+                    String name = reads.nextLine();
+                    Perfil thisLog = retrieveUser(name);
+                    thisLog.friendRequest.add(current.getNome());
+                    break;
+                    
+                case "2":
+                    printFriendRequestList();
+                    break;
+                    
+                case "3":
+                    printFriendList();
+                    break;
+                    
+                case "0":
+                    hasChanged = true;
+                    break;
+                    
+                default:
+                    System.out.println(">Input not valid please try again");
+                    break;
+            }
+            
+        
+        } while (!hasChanged);
+    }
+    
+    public void printFriendList(){
+        for(int cycle = 0; cycle <= current.friendList.size(); cycle++){
+            System.out.println("> " + current.friendList.get(cycle));
+        }
+    }
+    public void printFriendRequestList(){
+        for(int cycle = 0; cycle <= current.friendList.size(); cycle++){
+            System.out.println("> " + current.friendRequest.get(cycle));
+        }
+    }
+
     //Sthetics
     public void doLogo() {                                                               //Shows ASCII art for logo
         System.out.println("   _____                _      _ _               \n"
@@ -219,9 +279,14 @@ public class XeradorMenus {
     }
 
     public void clr() {                                                                 //Creates 30 whitespace linebreaks as a method to clear screen
-        for (int jump = 0; jump < 60; jump++) {
+        for (int jump = 0; jump < 20; jump++) {
             System.out.println();
         }
+    }
+
+    //Utility
+    public Perfil retrieveUser(String name) {
+        return this.data.getProfileWith(name);    
     }
 
     /*
@@ -252,16 +317,15 @@ public class XeradorMenus {
                 case "exit":
                     hasExtd = true;
                     break;
-                
+
                 case "ping":
                     this.data.pingUsers();
                     break;
 
-                    
                 default:
                     System.out.println("CT:/[Error] InputNotValid");
                     break;
-                
+
             }
 
         } while (!hasExtd);

@@ -13,13 +13,15 @@ public class Perfil {
     
     //Non-necessary atributes
     String biography;
-    ArrayList <String> listaAmigos;
+    ArrayList <String> friendList;
+    ArrayList <String> friendRequest;
     
     //Construction methods
     public Perfil(String nome, String contrasinal){
         this.nome = nome;
         this.contrasinal = contrasinal;
-        this.listaAmigos = new ArrayList<>();
+        this.friendList = new ArrayList<>();
+        this.friendRequest = new ArrayList<>();
     }
     
     //Getters & Setters
@@ -57,6 +59,18 @@ public class Perfil {
 
     public String getBiography() {
         return biography;
+    }
+    
+    public void sendRequest(Perfil profile){
+        
+    }
+    
+    public void acceptRequest(){
+        
+    }
+    
+    public void denyRequest(){
+        
     }
   
 }
