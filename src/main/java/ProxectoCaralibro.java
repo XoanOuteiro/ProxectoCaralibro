@@ -1,6 +1,6 @@
 /**
  *
- * Created by @XoanOuteiro & @Samuyo
+ * Created by @XoanOuteiro & @Samuyo.
  */
 public class ProxectoCaralibro {
 
