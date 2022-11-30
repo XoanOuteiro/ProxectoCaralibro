@@ -106,6 +106,7 @@ public class XeradorMenus {
                     } else {
 
                         System.out.println(">Current state: " + current.getEstado());   //If they have a state they have the option to change it                        System.out.println(">Press [1] if you wish to change your state. Any other number to continue");
+                        System.out.println(">Press [1] if you wish to change the state. Any other number to continue");
 
                         input = reads.nextLine();
 
@@ -223,51 +224,60 @@ public class XeradorMenus {
             System.out.println("[2] to see friend requests");
             System.out.println("[3] to see FriendList");
             System.out.println("[0] to exit menu");
-            
+
             String input = reads.nextLine();
-            
-            switch (input){
+
+            switch (input) {
                 case "1":
                     System.out.println(">Who do you want to add as a friend?");
                     String name = reads.nextLine();
-                    Perfil thisLog = retrieveUser(name);
-                    thisLog.friendRequest.add(current.getNome());
+                    current.engadirSolicitudeDeAmistade(current.retrieveUser(name));
                     break;
-                    
+
                 case "2":
                     printFriendRequestList();
                     break;
-                    
+
                 case "3":
                     printFriendList();
                     break;
-                    
+
                 case "0":
                     hasChanged = true;
                     break;
-                    
+
                 default:
                     System.out.println(">Input not valid please try again");
                     break;
             }
-            
-        
+
         } while (!hasChanged);
     }
-    
-    public void printFriendList(){
+
+    public void printFriendList() {
         Scanner reads = new Scanner(System.in);
-        for(int cycle = 0; cycle <= current.friendList.size(); cycle++){
-            System.out.println("> " + current.friendList.get(cycle));   
+        if (current.friendList.size() > 0) {
+            for (int cycle = 0; cycle <= current.friendList.size(); cycle++) {
+                System.out.println(">[" + cycle + "] " + current.friendList.get(cycle));
+            }
+        } else {
+            System.out.println(">You still havent added any friends.");
         }
+
         System.out.println(">Press enter to continue.");
         reads.nextLine();
     }
-    public void printFriendRequestList(){
+
+    public void printFriendRequestList() {
         Scanner reads = new Scanner(System.in);
-        for(int cycle = 0; cycle <= current.friendList.size(); cycle++){
-            System.out.println("> " + current.friendRequest.get(cycle) + " wants to be your friend");
+        if (current.friendRequest.size() > 0) {
+            for (int cycle = 0; cycle <= current.friendList.size(); cycle++) {
+                System.out.println(">[" + cycle + "] " + current.friendRequest.get(cycle) + " wants to be your friend");
+            }
+        } else {
+            System.out.println(">You have no pending requests.");
         }
+
         System.out.println(">Press enter to continue.");
         reads.nextLine();
     }
@@ -291,9 +301,7 @@ public class XeradorMenus {
     }
 
     //Utility
-    public Perfil retrieveUser(String name) {
-        return this.data.getProfileWith(name);    
-    }
+    
 
     /*
     This debugings console provides simple automatisms for the initial menu

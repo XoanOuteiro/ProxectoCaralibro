@@ -16,6 +16,9 @@ public class Perfil {
     ArrayList <String> friendList;
     ArrayList <String> friendRequest;
     
+    //Data
+    CaraLibroBD data;
+    
     //Construction methods
     public Perfil(String nome, String contrasinal){
         this.nome = nome;
@@ -61,16 +64,24 @@ public class Perfil {
         return biography;
     }
     
-    public void sendRequest(Perfil profile){
+    public void engadirAmigo(Perfil perfil){
         
     }
     
-    public void acceptRequest(){
+    public void engadirSolicitudeDeAmistade(Perfil perfilSolicitante){
+        perfilSolicitante.friendRequest.add(getNome());
+    }
+    
+    public void aceptarSolicitudeDeAmistade(Perfil perfilSolicitante){
         
     }
     
-    public void denyRequest(){
+    public void rexeitarSolicitudeDeAmistade(Perfil perfilSolicitante){
         
+    }
+    
+    public Perfil retrieveUser(String name) {
+        return this.data.getProfileWith(name);
     }
   
 }
