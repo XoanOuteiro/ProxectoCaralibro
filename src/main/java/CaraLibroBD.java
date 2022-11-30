@@ -5,20 +5,18 @@ import java.util.ArrayList;
  *
  * by @XoanOuteiro & @Samuyo
  */
-public class CaraLibroBD {
+public final class CaraLibroBD {
 
     //Atributes
-    ArrayList<Perfil> base;
+    static ArrayList<Perfil> base = new ArrayList();
 
     //Construction methods
-    public CaraLibroBD() {
-        this.base = new ArrayList<Perfil>();
-    }
+
 
     //Getters & Setters
     //Utility methods
-    public void engadirPerfil(Perfil novoPerfil) {                              //Adding requires a Perfil obj which we will -ALWAYS- create on call
-        this.base.add(novoPerfil);
+    public static void engadirPerfil(Perfil novoPerfil) {                              //Adding requires a Perfil obj which we will -ALWAYS- create on call
+        base.add(novoPerfil);
     }
 
     /*
@@ -26,9 +24,9 @@ public class CaraLibroBD {
     it matches given Strings in the fields of 
     name and password.
      */
-    public Perfil obterPerfil(String nome, String contrasinal) {                //Not a getter (use this to swap profiles as currentProfile = obterPerfil();)
+    public static Perfil obterPerfil(String nome, String contrasinal) {                //Not a getter (use this to swap profiles as currentProfile = obterPerfil();)
         //We will search in our list for a coincidence index of 2 (2 trues)
-        for (Perfil base : this.base) {
+        for (Perfil base : base) {
             if (base.getNome().equals(nome) && base.getContrasinal().equals(contrasinal)) {
                 return base;
             }
@@ -40,8 +38,8 @@ public class CaraLibroBD {
       Searchs and retrieves a profile based on its name.
       Returns null if not exists.
      */
-    public Perfil getProfileWith(String text) {
-        for (Perfil base : this.base) {
+    public static Perfil getProfileWith(String text) {
+        for (Perfil base : base) {
             if (base.getNome().equals(text)) {
                 return base;
             }
@@ -54,8 +52,8 @@ public class CaraLibroBD {
     Returns true if the given String is contained 
     as a name in current database, returns false otherwise.
      */
-    public boolean lookFor(String that) {
-        for (Perfil base : this.base) {
+    public static boolean lookFor(String that) {
+        for (Perfil base : base) {
             if (base.getNome().equals(that)) {
                 return true;
             }
@@ -66,8 +64,8 @@ public class CaraLibroBD {
     /*
     Shows all users 
      */
-    public void pingUsers() {
-        for (Perfil base : this.base) {
+    public static void pingUsers() {
+        for (Perfil base : base) {
             System.out.println("CT:/ [@Ping] detected " + base.getNome() + " / " + base.getContrasinal());
         }
 

@@ -13,8 +13,8 @@ public class XeradorMenus {
     Perfil current;
 
     //Construction methods
-    public XeradorMenus() {                                                      //Constructor spawns database
-        this.data = new CaraLibroBD();
+    public XeradorMenus() {                                                      //Constructor spawns database IF NOT STATIC
+        //this.data = new CaraLibroBD();
     }
 
     //Essential menus
