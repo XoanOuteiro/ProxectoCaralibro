@@ -233,12 +233,18 @@ public class XeradorMenus {
                     String name = reads.nextLine();
                     if (data.lookFor(name)) {
                         
-                        if (current.friendList.contains(name)) {
+                        if (current.friendList.contains(name) || current.retrieveUser(name).friendList.contains(current.getNome())) {
+                            
                             System.out.println(">That user already is your friend");
-                        } else if (current.friendRequest.contains(name)) {
-                            System.out.println(">You already have a pending friend request from that user.");
+                            
+                        } else if (current.friendRequest.contains(name) || current.retrieveUser(name).friendRequest.contains(current.getNome())) {
+                            
+                            System.out.println(">You/This user already have/has a pending friend request from you/that user.");
+                            
                         } else {
+                            
                         current.engadirSolicitudeDeAmistade(current.retrieveUser(name));
+                        
                         }
                     } else {
                         
@@ -286,8 +292,8 @@ public class XeradorMenus {
         Scanner reads = new Scanner(System.in);
         if (current.friendRequest.size() > 0) {
             
-            for (int cycle = 0; cycle <= current.friendList.size(); cycle++) {
-                System.out.println(">[" + cycle + "] " + current.friendRequest.get(cycle) + " wants to be your friend");
+            for (int cycler = 0; cycler < current.friendRequest.size(); cycler++) {
+                System.out.println(">[" + cycler + "] " + current.friendRequest.get(cycler) + " wants to be your friend");
             }
 
             System.out.println(">Write the name of the user you wish to [add/reject].");

@@ -74,6 +74,7 @@ public class Perfil {
     
     public void aceptarSolicitudeDeAmistade(Perfil perfilSolicitante){
         this.friendList.add(perfilSolicitante);                               //Add to friendlist
+        perfilSolicitante.friendList.add(this);                               //Add self to opposite friendList
         this.friendRequest.remove(perfilSolicitante.getNome());               //Remove from friendRequestList
     }
     
