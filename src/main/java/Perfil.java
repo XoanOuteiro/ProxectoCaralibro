@@ -13,7 +13,7 @@ public class Perfil {
     
     //Non-necessary atributes
     String biography;
-    ArrayList <String> friendList;
+    ArrayList <Perfil> friendList;
     ArrayList <String> friendRequest;
     
     //Data
@@ -73,15 +73,16 @@ public class Perfil {
     }
     
     public void aceptarSolicitudeDeAmistade(Perfil perfilSolicitante){
-        
+        this.friendList.add(perfilSolicitante);                               //Add to friendlist
+        this.friendRequest.remove(perfilSolicitante.getNome());               //Remove from friendRequestList
     }
     
     public void rexeitarSolicitudeDeAmistade(Perfil perfilSolicitante){
-        
+        this.friendRequest.remove(perfilSolicitante.getNome());               //Remove from friendRequestList
     }
     
     public Perfil retrieveUser(String name) {
-        return this.data.getProfileWith(name);
+        return this.data.buscarPerfil(name);
     }
   
 }

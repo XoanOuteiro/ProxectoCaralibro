@@ -38,7 +38,7 @@ public final class CaraLibroBD {
       Searchs and retrieves a profile based on its name.
       Returns null if not exists.
      */
-    public static Perfil getProfileWith(String text) {
+    public static Perfil buscarPerfil(String text) {
         for (Perfil base : base) {
             if (base.getNome().equals(text)) {
                 return base;

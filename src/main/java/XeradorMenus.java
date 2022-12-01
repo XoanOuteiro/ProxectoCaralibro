@@ -231,7 +231,21 @@ public class XeradorMenus {
                 case "1":
                     System.out.println(">Who do you want to add as a friend?");
                     String name = reads.nextLine();
-                    current.engadirSolicitudeDeAmistade(current.retrieveUser(name));
+                    if (data.lookFor(name)) {
+                        
+                        if (current.friendList.contains(name)) {
+                            System.out.println(">That user already is your friend");
+                        } else if (current.friendRequest.contains(name)) {
+                            System.out.println(">You already have a pending friend request from that user.");
+                        } else {
+                        current.engadirSolicitudeDeAmistade(current.retrieveUser(name));
+                        }
+                    } else {
+                        
+                        System.out.println(">That user does not exist!");
+                        
+                    }
+                    
                     break;
 
                 case "2":
@@ -257,8 +271,8 @@ public class XeradorMenus {
     public void printFriendList() {
         Scanner reads = new Scanner(System.in);
         if (current.friendList.size() > 0) {
-            for (int cycle = 0; cycle <= current.friendList.size(); cycle++) {
-                System.out.println(">[" + cycle + "] " + current.friendList.get(cycle));
+            for (int cycle = 0; cycle < current.friendList.size(); cycle++) {
+                System.out.println(">[" + cycle + "] " + current.friendList.get(cycle).getNome());
             }
         } else {
             System.out.println(">You still havent added any friends.");
@@ -271,9 +285,33 @@ public class XeradorMenus {
     public void printFriendRequestList() {
         Scanner reads = new Scanner(System.in);
         if (current.friendRequest.size() > 0) {
+            
             for (int cycle = 0; cycle <= current.friendList.size(); cycle++) {
                 System.out.println(">[" + cycle + "] " + current.friendRequest.get(cycle) + " wants to be your friend");
             }
+
+            System.out.println(">Write the name of the user you wish to [add/reject].");
+
+            String input = reads.nextLine();
+
+            if (current.friendRequest.contains(input)) {
+                
+                System.out.println(">Write [1] to accept or [2] to reject.");
+                String accrej = reads.nextLine();
+                
+                if (accrej.equals("1")) {
+                    current.aceptarSolicitudeDeAmistade(data.buscarPerfil(input));
+                } else if (accrej.equals("2")) {
+                    current.rexeitarSolicitudeDeAmistade(data.buscarPerfil(input));
+                } else {
+                    System.out.println(">Input not valid.");
+                }
+                
+            } else {
+                System.out.println(">That name was not valid.");
+            }
+            ;
+
         } else {
             System.out.println(">You have no pending requests.");
         }
@@ -301,8 +339,6 @@ public class XeradorMenus {
     }
 
     //Utility
-    
-
     /*
     This debugings console provides simple automatisms for the initial menu
      */
@@ -317,14 +353,14 @@ public class XeradorMenus {
             switch (reads.nextLine()) {
 
                 case "add lib":                                                     //Adds an amount of users
-                    this.data.engadirPerfil(new Perfil("a1", "a1"));
-                    this.data.engadirPerfil(new Perfil("a22xoanmoj", "a22"));
-                    this.data.engadirPerfil(new Perfil("bmo", "bmo_"));
-                    this.data.engadirPerfil(new Perfil("rotary", "rot21"));
-                    this.data.engadirPerfil(new Perfil("jess", "123abc."));
-                    this.data.engadirPerfil(new Perfil("anon12", "lolmao"));
-                    this.data.engadirPerfil(new Perfil("kev", "javac"));
-                    this.data.engadirPerfil(new Perfil("user", "user"));
+                    data.engadirPerfil(new Perfil("a1", "a1"));
+                    data.engadirPerfil(new Perfil("a22xoanmoj", "a22"));
+                    data.engadirPerfil(new Perfil("bmo", "bmo_"));
+                    data.engadirPerfil(new Perfil("rotary", "rot21"));
+                    data.engadirPerfil(new Perfil("jess", "123abc."));
+                    data.engadirPerfil(new Perfil("anon12", "lolmao"));
+                    data.engadirPerfil(new Perfil("kev", "javac"));
+                    data.engadirPerfil(new Perfil("user", "user"));
                     System.out.println("CT:/[OK] 8 users added.");
                     break;
 
