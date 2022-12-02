@@ -60,7 +60,11 @@ public class XeradorMenus {
                 case "ct":
                     ctCommand();
                     break;
-
+                
+                case "close sys":
+                    hasChangedMenu = true;
+                    break;
+                    
                 default:
                     System.out.println(">Input not valid, please try again");
                     break;
@@ -94,68 +98,12 @@ public class XeradorMenus {
 
             switch (input) {
 
-                case "1":             //Consider the option to call a different method in each case containing this logic
-                    if (current.getEstado() == null) {
-
-                        System.out.println(">You have not set a state yet.");   //If the user has no state we ask them to write one
-                        System.out.println(">Please write a new state: ");
-
-                        String newState = reads.nextLine();
-                        current.setEstado(newState);
-
-                    } else {
-
-                        System.out.println(">Current state: " + current.getEstado());   //If they have a state they have the option to change it                        System.out.println(">Press [1] if you wish to change your state. Any other number to continue");
-                        System.out.println(">Press [1] if you wish to change the state. Any other number to continue");
-
-                        input = reads.nextLine();
-
-                        switch (input) {
-
-                            case "1":
-
-                                System.out.println(">Please, write a new state: ");
-
-                                String newState = reads.nextLine();
-                                current.setEstado(newState);
-                                break;
-
-                            default:
-                                break;
-
-                        }
-                    }
+                case "1":             //Consider the option to call a different method in each case containing this logic (done 02/12/22)
+                    stateCase();
                     break;
 
                 case "2":
-                    if (current.getBiography() == null) {
-
-                        System.out.println(">You have not set a biography yet.");
-                        System.out.println(">Please write a new biography: ");
-
-                        String newBiography = reads.nextLine();
-                        current.setBiography(newBiography);
-
-                    } else {
-
-                        System.out.println(">Current biography: " + current.getBiography());
-                        System.out.println(">Press [1] if you wish to change the biography. Any other number to continue");
-
-                        input = reads.nextLine();
-
-                        switch (input) {
-                            case "1":
-
-                                System.out.println(">Please, write new biography: ");
-
-                                String newBiography = reads.nextLine();
-                                current.setBiography(newBiography);
-                                break;
-
-                            default:
-                                break;
-                        }
-                    }
+                    biographyCase();
                     break;
 
                 case "3":
@@ -164,7 +112,7 @@ public class XeradorMenus {
 
                 case "0":
                     current = null;
-                    hasChangedMenu = true;
+                    hasChangedMenu = true;                                          //Change session to null and jump back into sessions menu
                     break;
 
                 default:
@@ -173,6 +121,72 @@ public class XeradorMenus {
             }
 
         } while (!hasChangedMenu);
+    }
+
+    private void stateCase() {
+        Scanner reads = new Scanner(System.in);
+        if (current.getEstado() == null) {
+
+            System.out.println(">You have not set a state yet.");   //If the user has no state we ask them to write one
+            System.out.println(">Please write a new state: ");
+
+            String newState = reads.nextLine();
+            current.setEstado(newState);
+
+        } else {
+
+            System.out.println(">Current state: " + current.getEstado());   //If they have a state they have the option to change it                        System.out.println(">Press [1] if you wish to change your state. Any other number to continue");
+            System.out.println(">Press [1] if you wish to change the state. Any other number to continue");
+
+            input = reads.nextLine();
+
+            switch (input) {
+
+                case "1":
+
+                    System.out.println(">Please, write a new state: ");
+
+                    String newState = reads.nextLine();
+                    current.setEstado(newState);
+                    break;
+
+                default:
+                    break;
+
+            }
+        }
+    }
+
+    private void biographyCase() {
+        Scanner reads = new Scanner(System.in);
+        if (current.getBiography() == null) {
+
+            System.out.println(">You have not set a biography yet.");   //Same procedure for bios
+            System.out.println(">Please write a new biography: ");
+
+            String newBiography = reads.nextLine();
+            current.setBiography(newBiography);
+
+        } else {
+
+            System.out.println(">Current biography: " + current.getBiography());
+            System.out.println(">Press [1] if you wish to change the biography. Any other number to continue");
+
+            input = reads.nextLine();
+
+            switch (input) {
+                case "1":
+
+                    System.out.println(">Please, write new biography: ");
+
+                    String newBiography = reads.nextLine();
+                    current.setBiography(newBiography);
+                    break;
+
+                default:
+                    break;
+            }
+        }
     }
 
     private void crearPerfil() {
@@ -229,29 +243,7 @@ public class XeradorMenus {
 
             switch (input) {
                 case "1":
-                    System.out.println(">Who do you want to add as a friend?");
-                    String name = reads.nextLine();
-                    if (data.lookFor(name)) {
-                        
-                        if (current.friendListContainsName(name)) {                //Since we force adding users to both lists theres no need to check both lists
-                            
-                            System.out.println(">That user already is your friend");
-                            
-                        } else if (current.friendRequest.contains(name) || current.retrieveUser(name).friendRequest.contains(current.getNome())) {
-                            
-                            System.out.println(">You/This user already have/has a pending friend request from you/that user.");
-                            
-                        } else {
-                            
-                        current.engadirSolicitudeDeAmistade(data.buscarPerfil(name));
-                        
-                        }
-                    } else {
-                        
-                        System.out.println(">That user does not exist!");
-                        
-                    }
-                    
+                    printFriendRequestMenu();
                     break;
 
                 case "2":
@@ -274,6 +266,32 @@ public class XeradorMenus {
         } while (!hasChanged);
     }
 
+    public void printFriendRequestMenu() {
+        Scanner reads = new Scanner(System.in);
+        System.out.println(">Who do you want to add as a friend?");
+        String name = reads.nextLine();
+        if (data.lookFor(name)) {
+
+            if (current.friendListContainsName(name)) {                //Since we force adding users to both lists theres no need to check both lists
+
+                System.out.println(">That user already is your friend");
+
+            } else if (current.friendRequest.contains(name) || current.retrieveUser(name).friendRequest.contains(current.getNome())) {
+
+                System.out.println(">You/This user already have/has a pending friend request from you/that user.");
+
+            } else {
+
+                current.engadirSolicitudeDeAmistade(data.buscarPerfil(name));
+
+            }
+        } else {
+
+            System.out.println(">That user does not exist!");
+
+        }
+    }
+
     public void printFriendList() {
         Scanner reads = new Scanner(System.in);
         if (current.friendList.size() > 0) {
@@ -291,7 +309,7 @@ public class XeradorMenus {
     public void printFriendRequestList() {
         Scanner reads = new Scanner(System.in);
         if (current.friendRequest.size() > 0) {
-            
+
             for (int cycler = 0; cycler < current.friendRequest.size(); cycler++) {
                 System.out.println(">[" + cycler + "] " + current.friendRequest.get(cycler) + " wants to be your friend");
             }
@@ -301,10 +319,10 @@ public class XeradorMenus {
             String input = reads.nextLine();
 
             if (current.friendRequest.contains(input)) {
-                
+
                 System.out.println(">Write [1] to accept or [2] to reject.");
                 String accrej = reads.nextLine();
-                
+
                 if (accrej.equals("1")) {
                     current.aceptarSolicitudeDeAmistade(data.buscarPerfil(input));
                 } else if (accrej.equals("2")) {
@@ -312,7 +330,7 @@ public class XeradorMenus {
                 } else {
                     System.out.println(">Input not valid.");
                 }
-                
+
             } else {
                 System.out.println(">That name was not valid.");
             }
@@ -377,12 +395,12 @@ public class XeradorMenus {
                 case "ping":
                     this.data.pingUsers();
                     break;
-                    
+
                 case "load friendtest":
                     data.engadirPerfil(new Perfil("sender1", "sender1"));
                     data.engadirPerfil(new Perfil("sender2", "sender2"));
-                    data.engadirPerfil(new Perfil("reciever","reciever"));
-                    
+                    data.engadirPerfil(new Perfil("reciever", "reciever"));
+
                     current = data.buscarPerfil("sender1");
                     current.engadirSolicitudeDeAmistade(data.buscarPerfil("reciever"));
                     current = data.buscarPerfil("sender2");
