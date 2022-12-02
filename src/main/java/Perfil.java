@@ -82,8 +82,24 @@ public class Perfil {
         this.friendRequest.remove(perfilSolicitante.getNome());               //Remove from friendRequestList
     }
     
+    /**
+     * 
+     * @param name
+     * @return Perfil
+     * 
+     * This user is currently useless as data is now a static field
+     */
     public Perfil retrieveUser(String name) {
         return this.data.buscarPerfil(name);
+    }
+    
+    public boolean friendListContainsName(String name) {
+        for (int cycle = 0; cycle < this.friendList.size(); cycle++){
+            if (this.friendList.get(cycle).getNome().equals(name)){
+                return true;
+            }
+        }
+        return false;
     }
   
 }

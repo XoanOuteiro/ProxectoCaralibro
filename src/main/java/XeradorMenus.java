@@ -233,7 +233,7 @@ public class XeradorMenus {
                     String name = reads.nextLine();
                     if (data.lookFor(name)) {
                         
-                        if (current.friendList.contains(name) || current.retrieveUser(name).friendList.contains(current.getNome())) {
+                        if (current.friendListContainsName(name)) {                //Since we force adding users to both lists theres no need to check both lists
                             
                             System.out.println(">That user already is your friend");
                             
@@ -243,7 +243,7 @@ public class XeradorMenus {
                             
                         } else {
                             
-                        current.engadirSolicitudeDeAmistade(current.retrieveUser(name));
+                        current.engadirSolicitudeDeAmistade(data.buscarPerfil(name));
                         
                         }
                     } else {
@@ -376,6 +376,18 @@ public class XeradorMenus {
 
                 case "ping":
                     this.data.pingUsers();
+                    break;
+                    
+                case "load friendtest":
+                    data.engadirPerfil(new Perfil("sender1", "sender1"));
+                    data.engadirPerfil(new Perfil("sender2", "sender2"));
+                    data.engadirPerfil(new Perfil("reciever","reciever"));
+                    
+                    current = data.buscarPerfil("sender1");
+                    current.engadirSolicitudeDeAmistade(data.buscarPerfil("reciever"));
+                    current = data.buscarPerfil("sender2");
+                    current.engadirSolicitudeDeAmistade(data.buscarPerfil("reciever"));
+                    current = null;
                     break;
 
                 default:
