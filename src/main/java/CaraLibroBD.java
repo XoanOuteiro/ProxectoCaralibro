@@ -1,6 +1,5 @@
 
 import java.util.ArrayList;
-
 /**
  *
  * by @XoanOuteiro & @Samuyo
