@@ -11,10 +11,11 @@ public class Perfil {
     String contrasinal;
     String estado;
     
-    //Non-necessary atributes
+    //Non-essential atributes
     String biography;
     ArrayList <Perfil> friendList;
     ArrayList <String> friendRequest;
+    ArrayList <Publicacion> inbox;
     
     //Data
     CaraLibroBD data;
