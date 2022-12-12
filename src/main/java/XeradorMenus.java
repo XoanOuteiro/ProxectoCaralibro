@@ -28,13 +28,13 @@ public class XeradorMenus {
         boolean hasChangedMenu = false;
 
         do {
+            clr();
             //Add options according to need.
             System.out.println("[1] to create an account.");
             System.out.println("[2] to login to existing account");
 
             //So that we dont need exceptions we will do all compares to String 
-
-                input = reads.nextLine();
+            input = reads.nextLine();
 
             //Expand as needed
             switch (input) {
@@ -47,7 +47,6 @@ public class XeradorMenus {
                     iniciarSesion();
                     //Once we succesfully have a session we go to MainMenu
                     if (current != null) {                                         //At 26/12 this condition crashes or isnt met, fixed 14:41 
-                        clr();
                         mostrarMenuPrincipal();
                     }
                     break;
@@ -55,16 +54,15 @@ public class XeradorMenus {
                 case "ct":
                     ctCommand();
                     break;
-                
+
                 case "close sys":
                     hasChangedMenu = true;
                     break;
-                    
+
                 default:
                     System.out.println(">Input not valid, please try again");
                     break;
             }
-            clr();
 
         } while (!hasChangedMenu);
     }
@@ -80,7 +78,7 @@ public class XeradorMenus {
             clr();
             System.out.println("-Current user:" + current.getNome());
             System.out.println("-[1] State ->Current: " + current.getEstado());
-            System.out.println("-[2] Biography ->Current: " + current.getBiography());
+            System.out.println("-[2] Biography & Posts ->Current: " + current.getBiography());
             System.out.println("-[3] FriendList");
             System.out.println("-[0] Close session");
 
@@ -118,7 +116,6 @@ public class XeradorMenus {
         } while (!hasChangedMenu);
     }
 
-    
     /**
      * This is the menu for selfs state
      */
@@ -156,7 +153,6 @@ public class XeradorMenus {
         }
     }
 
-    
     /**
      * This is the menu for selfs biography
      */
@@ -174,6 +170,7 @@ public class XeradorMenus {
 
             System.out.println(">Current biography: " + current.getBiography());
             System.out.println(">Press [1] if you wish to change the biography. Any other number to go back");
+            System.out.println(">Press [2] if you wish to enter post feed.");
 
             input = reads.nextLine();
 
@@ -186,13 +183,15 @@ public class XeradorMenus {
                     current.setBiography(newBiography);
                     break;
 
+                case "2":
+                    postFeedMenu();
+
                 default:
                     break;
             }
         }
     }
 
-    
     /**
      * This is the menu for creating new users
      */
@@ -215,7 +214,6 @@ public class XeradorMenus {
         } while (!done);
     }
 
-    
     /**
      * This is the menu for logging in
      */
@@ -238,10 +236,8 @@ public class XeradorMenus {
     }
 
     //Secondary menus
-    
     /**
-     * This is a utility non-essential menu for 
-     * managing selfs friendList
+     * This is a utility non-essential menu for managing selfs friendList
      */
     public void friendMenu() {
         boolean hasChanged = false;
@@ -281,11 +277,9 @@ public class XeradorMenus {
 
         } while (!hasChanged);
     }
-    
-    
+
     /**
-     * This is a non-essential menu for managing selfs
-     * friend requests
+     * This is a non-essential menu for managing selfs friend requests
      */
     public void printFriendRequestMenu() {
         Scanner reads = new Scanner(System.in);
@@ -298,9 +292,9 @@ public class XeradorMenus {
                 System.out.println(">That user already is your friend");
 
             } else if (name.equals(current.getNome())) {
-                
+
                 System.out.println(">You cant add yourself as a friend.");
-                
+
             } else if (current.friendRequest.contains(name) || data.buscarPerfil(name).friendRequest.contains(current.getNome())) {
 
                 System.out.println(">You/This user already have/has a pending friend request from you/that user.");
@@ -317,12 +311,12 @@ public class XeradorMenus {
         }
     }
 
-    
     /**
      * This method allows for visualizing selfs added friends as names
      */
     public void printFriendList() {
         Scanner reads = new Scanner(System.in);
+        System.out.println(">---------------------------------------------------------------<");
         if (current.friendList.size() > 0) {
             for (int cycle = 0; cycle < current.friendList.size(); cycle++) {
                 System.out.println(">[" + cycle + "] " + current.friendList.get(cycle).getNome());
@@ -331,14 +325,12 @@ public class XeradorMenus {
             System.out.println(">You still havent added any friends.");
         }
 
-        System.out.println(">Press enter to continue.");
-        reads.nextLine();
+        System.out.println(">---------------------------------------------------------------<");
     }
 
-    
     /**
-     * This method shows a list enumerating
-     * all users that have sent a yet unanswered request
+     * This method shows a list enumerating all users that have sent a yet
+     * unanswered request
      */
     public void printFriendRequestList() {
         Scanner reads = new Scanner(System.in);
@@ -378,11 +370,86 @@ public class XeradorMenus {
         reads.nextLine();
     }
 
+    /**
+     * Shows initial posts menu
+     */
+    private void postFeedMenu() {
+        clr();
+        Scanner reads = new Scanner(System.in);
+        System.out.println(">Welcome to inbox! Here you and your friends can make new posts.");
+        boolean hasChangedMenu = false;
+        Perfil dir = current;                                                   //The atribute dir is used to reference on which users inbox we will be posting
+        String input;
+
+        do {
+            System.out.println(">This is " + dir.getNome() + "'s inbox.");
+            System.out.println("[1] to check posts at this inbox");             //add notifs here?
+            System.out.println("[2] to make a new post");
+            System.out.println("[3] to change inbox directory");
+            System.out.println("[4] to go back");
+
+            input = reads.nextLine();
+
+            switch (input) {
+
+                case "1":
+                    showPosts();
+                    break;
+
+                case "2":
+                    createPostMenu();
+                    break;
+
+                case "3":
+                    if (current.friendList.size() == 0) {
+                        System.out.println(">Looks like you still havent added any friends :(");
+                    } else {
+                        System.out.println(">To which one of your friends inbox would you like to go?");
+                        printFriendList();
+                        input = reads.nextLine();
+
+                        if (current.friendListContainsName(input)) {
+
+                            dir = data.buscarPerfil(input);
+
+                        } else {
+
+                            System.out.println(">Whoops! Looks like this user is not in your friend list :(");
+
+                        }
+                    }
+                    break;
+                
+                case "4":
+                    hasChangedMenu = true;
+                    break;
+                
+                default:
+                    System.out.println(">Input not valid, please try again.");
+                    break;
+            }
+            clr();
+
+        } while (!hasChangedMenu);
+    }
+
+    /**
+     * Menu for creating and editing posts (editing ONLY before publishing via
+     * "Are you sure?" messages)
+     */
+    private void createPostMenu() {
+        System.out.println("TBI");
+    }
+
+    private void showPosts() {
+        System.out.println("TBI");
+    }
+
     //Sthetics
     /**
      * Prints CaraLibro in ASCII art.
      */
-    public void doLogo() {                                                               
+    public void doLogo() {
         System.out.println("   _____                _      _ _               \n"
                 + "  / ____|              | |    (_) |              \n"
                 + " | |     __ _ _ __ __ _| |     _| |__  _ __ ___  \n"
@@ -393,20 +460,25 @@ public class XeradorMenus {
                 + "                                                 ");
     }
 
-    
     /**
      * Jumps N lines to create readable menus
      */
-    public void clr() {                                                                 
-        for (int jump = 0; jump < 20; jump++) {
+    public void clr() {
+        for (int jump = 0; jump < 3; jump++) {
+            System.out.println();
+        }
+        System.out.println("^^^ Later action ^^^");
+        System.out.println("><><><><><><><><><><><><><><><><><><><><><><");
+        System.out.println("-> Newer action <-");
+        
+        for (int jump = 0; jump < 3; jump++) {
             System.out.println();
         }
     }
 
     //Utility
     /**
-     * This command console provides
-     * quick admin tools for debugging
+     * This command console provides quick admin tools for debugging
      */
     private void ctCommand() {
         boolean hasExtd = false;
@@ -448,7 +520,33 @@ public class XeradorMenus {
                     current = data.buscarPerfil("sender2");
                     current.engadirSolicitudeDeAmistade(data.buscarPerfil("reciever"));
                     current = null;
+                    System.out.println("CT:/[OK] case test 'friends' loaded");
                     break;
+                    
+                case "metaload":
+                    //Friendtest
+                    data.engadirPerfil(new Perfil("sender1", "sender1"));
+                    data.engadirPerfil(new Perfil("sender2", "sender2"));
+                    data.engadirPerfil(new Perfil("reciever", "reciever"));
+
+                    current = data.buscarPerfil("sender1");
+                    current.engadirSolicitudeDeAmistade(data.buscarPerfil("reciever"));
+                    current = data.buscarPerfil("sender2");
+                    current.engadirSolicitudeDeAmistade(data.buscarPerfil("reciever"));
+                    current = null;
+                    
+                    //Lib
+                    data.engadirPerfil(new Perfil("a1", "a1"));
+                    data.engadirPerfil(new Perfil("a22xoanmoj", "a22"));
+                    data.engadirPerfil(new Perfil("bmo", "bmo_"));
+                    data.engadirPerfil(new Perfil("rotary", "rot21"));
+                    data.engadirPerfil(new Perfil("jess", "123abc."));
+                    data.engadirPerfil(new Perfil("anon12", "lolmao"));
+                    data.engadirPerfil(new Perfil("kev", "javac"));
+                    data.engadirPerfil(new Perfil("user", "user"));
+                    System.out.println("CT:/[OK] [!WARNING!] all libs added, PING recommended");
+                    break;
+                    
 
                 default:
                     System.out.println("CT:/[Error] InputNotValid");

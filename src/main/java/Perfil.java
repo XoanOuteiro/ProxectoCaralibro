@@ -123,5 +123,15 @@ public class Perfil {
         }
         return false;
     }
+    
+    /**
+     * 
+     * @param pub 
+     * 
+     * Adds given post to selfs inbox
+     */
+    public void engadirPublicacion(Publicacion pub){
+        this.inbox.add(pub);
+    }
   
 }
