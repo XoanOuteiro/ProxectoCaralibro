@@ -33,13 +33,8 @@ public class XeradorMenus {
             System.out.println("[2] to login to existing account");
 
             //So that we dont need exceptions we will do all compares to String 
-            try {
 
                 input = reads.nextLine();
-
-            } catch (Exception InputMismatchException) {
-                continue;
-            }                //Skip this iteration
 
             //Expand as needed
             switch (input) {
@@ -84,8 +79,8 @@ public class XeradorMenus {
         do {
             clr();
             System.out.println("-Current user:" + current.getNome());
-            System.out.println("-[1] State");
-            System.out.println("-[2] Biography");
+            System.out.println("-[1] State ->Current: " + current.getEstado());
+            System.out.println("-[2] Biography ->Current: " + current.getBiography());
             System.out.println("-[3] FriendList");
             System.out.println("-[0] Close session");
 
@@ -123,6 +118,10 @@ public class XeradorMenus {
         } while (!hasChangedMenu);
     }
 
+    
+    /**
+     * This is the menu for selfs state
+     */
     private void stateCase() {
         Scanner reads = new Scanner(System.in);
         if (current.getEstado() == null) {
@@ -136,7 +135,7 @@ public class XeradorMenus {
         } else {
 
             System.out.println(">Current state: " + current.getEstado());   //If they have a state they have the option to change it                        System.out.println(">Press [1] if you wish to change your state. Any other number to continue");
-            System.out.println(">Press [1] if you wish to change the state. Any other number to continue");
+            System.out.println(">Press [1] if you wish to change the state. Any other number to go back");
 
             input = reads.nextLine();
 
@@ -157,6 +156,10 @@ public class XeradorMenus {
         }
     }
 
+    
+    /**
+     * This is the menu for selfs biography
+     */
     private void biographyCase() {
         Scanner reads = new Scanner(System.in);
         if (current.getBiography() == null) {
@@ -170,7 +173,7 @@ public class XeradorMenus {
         } else {
 
             System.out.println(">Current biography: " + current.getBiography());
-            System.out.println(">Press [1] if you wish to change the biography. Any other number to continue");
+            System.out.println(">Press [1] if you wish to change the biography. Any other number to go back");
 
             input = reads.nextLine();
 
@@ -189,6 +192,10 @@ public class XeradorMenus {
         }
     }
 
+    
+    /**
+     * This is the menu for creating new users
+     */
     private void crearPerfil() {
         Scanner reads = new Scanner(System.in);
         boolean done = false;
@@ -208,6 +215,10 @@ public class XeradorMenus {
         } while (!done);
     }
 
+    
+    /**
+     * This is the menu for logging in
+     */
     private void iniciarSesion() {
         Scanner reads = new Scanner(System.in);
         System.out.println("-Write your username");
@@ -227,6 +238,11 @@ public class XeradorMenus {
     }
 
     //Secondary menus
+    
+    /**
+     * This is a utility non-essential menu for 
+     * managing selfs friendList
+     */
     public void friendMenu() {
         boolean hasChanged = false;
         Scanner reads = new Scanner(System.in);
@@ -265,7 +281,12 @@ public class XeradorMenus {
 
         } while (!hasChanged);
     }
-
+    
+    
+    /**
+     * This is a non-essential menu for managing selfs
+     * friend requests
+     */
     public void printFriendRequestMenu() {
         Scanner reads = new Scanner(System.in);
         System.out.println(">Who do you want to add as a friend?");
@@ -276,7 +297,11 @@ public class XeradorMenus {
 
                 System.out.println(">That user already is your friend");
 
-            } else if (current.friendRequest.contains(name) || current.retrieveUser(name).friendRequest.contains(current.getNome())) {
+            } else if (name.equals(current.getNome())) {
+                
+                System.out.println(">You cant add yourself as a friend.");
+                
+            } else if (current.friendRequest.contains(name) || data.buscarPerfil(name).friendRequest.contains(current.getNome())) {
 
                 System.out.println(">You/This user already have/has a pending friend request from you/that user.");
 
@@ -292,6 +317,10 @@ public class XeradorMenus {
         }
     }
 
+    
+    /**
+     * This method allows for visualizing selfs added friends as names
+     */
     public void printFriendList() {
         Scanner reads = new Scanner(System.in);
         if (current.friendList.size() > 0) {
@@ -306,6 +335,11 @@ public class XeradorMenus {
         reads.nextLine();
     }
 
+    
+    /**
+     * This method shows a list enumerating
+     * all users that have sent a yet unanswered request
+     */
     public void printFriendRequestList() {
         Scanner reads = new Scanner(System.in);
         if (current.friendRequest.size() > 0) {
@@ -345,7 +379,10 @@ public class XeradorMenus {
     }
 
     //Sthetics
-    public void doLogo() {                                                               //Shows ASCII art for logo
+    /**
+     * Prints CaraLibro in ASCII art.
+     */
+    public void doLogo() {                                                               
         System.out.println("   _____                _      _ _               \n"
                 + "  / ____|              | |    (_) |              \n"
                 + " | |     __ _ _ __ __ _| |     _| |__  _ __ ___  \n"
@@ -356,15 +393,20 @@ public class XeradorMenus {
                 + "                                                 ");
     }
 
-    public void clr() {                                                                 //Creates 30 whitespace linebreaks as a method to clear screen
+    
+    /**
+     * Jumps N lines to create readable menus
+     */
+    public void clr() {                                                                 
         for (int jump = 0; jump < 20; jump++) {
             System.out.println();
         }
     }
 
     //Utility
-    /*
-    This debugings console provides simple automatisms for the initial menu
+    /**
+     * This command console provides
+     * quick admin tools for debugging
      */
     private void ctCommand() {
         boolean hasExtd = false;

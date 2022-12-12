@@ -56,28 +56,52 @@ public class Perfil {
     public void setBiography(String biography) {
         this.biography = biography;
     }
-    
-    
-    //Utility methods
 
     public String getBiography() {
         return biography;
     }
     
+    //Utility methods
+    
+    /**
+     * 
+     * @param perfil 
+     * 
+     * Copies given profile onto selfs friendList
+     */
     public void engadirAmigo(Perfil perfil){
-        
+        this.friendList.add(perfil);
     }
     
+    /**
+     * 
+     * @param perfilSolicitante 
+     * 
+     * Adds self name to users friendRequestList
+     */
     public void engadirSolicitudeDeAmistade(Perfil perfilSolicitante){
-        perfilSolicitante.friendRequest.add(getNome());
+        perfilSolicitante.friendRequest.add(nome);
     }
     
+    /**
+     * 
+     * @param perfilSolicitante
+     * 
+     * Adds user with name on friendRequestList to friendList, adds
+     * self to users friendList and deletes friendRequest.
+     */
     public void aceptarSolicitudeDeAmistade(Perfil perfilSolicitante){
         this.friendList.add(perfilSolicitante);                               //Add to friendlist
-        perfilSolicitante.friendList.add(this);                               //Add self to opposite friendList
+        perfilSolicitante.engadirAmigo(this);                                 //Add self to opposite friendList
         this.friendRequest.remove(perfilSolicitante.getNome());               //Remove from friendRequestList
     }
     
+    /**
+     * 
+     * @param perfilSolicitante 
+     * 
+     * Deletes username String from current friendRequestList
+     */
     public void rexeitarSolicitudeDeAmistade(Perfil perfilSolicitante){
         this.friendRequest.remove(perfilSolicitante.getNome());               //Remove from friendRequestList
     }
@@ -85,14 +109,11 @@ public class Perfil {
     /**
      * 
      * @param name
-     * @return Perfil
+     * @return boolean
      * 
-     * This user is currently useless as data is now a static field
+     * Searches in current friendlist if a contained user has given name,
+     * returns true if it does, false if it doesnt.
      */
-    public Perfil retrieveUser(String name) {
-        return this.data.buscarPerfil(name);
-    }
-    
     public boolean friendListContainsName(String name) {
         for (int cycle = 0; cycle < this.friendList.size(); cycle++){
             if (this.friendList.get(cycle).getNome().equals(name)){

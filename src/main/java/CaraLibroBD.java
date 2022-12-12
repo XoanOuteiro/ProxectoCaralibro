@@ -9,19 +9,25 @@ public final class CaraLibroBD {
     //Atributes
     static ArrayList<Perfil> base = new ArrayList();
 
-    //Construction methods
-
-
-    //Getters & Setters
     //Utility methods
+    /**
+     * 
+     * @param novoPerfil 
+     * 
+     * Adds a new profile object to the static database
+     */
     public static void engadirPerfil(Perfil novoPerfil) {                              //Adding requires a Perfil obj which we will -ALWAYS- create on call
         base.add(novoPerfil);
     }
 
-    /*
-    Returns a profile if and only if 
-    it matches given Strings in the fields of 
-    name and password.
+    /**
+     * 
+     * @param nome
+     * @param contrasinal
+     * @return Perfil
+     * 
+     * This method looks for a user that matches both username and
+     * password, then returns it. Returns null otherwise.
      */
     public static Perfil obterPerfil(String nome, String contrasinal) {                //Not a getter (use this to swap profiles as currentProfile = obterPerfil();)
         //We will search in our list for a coincidence index of 2 (2 trues)
@@ -33,9 +39,13 @@ public final class CaraLibroBD {
         return null;
     }
 
-    /*
-      Searchs and retrieves a profile based on its name.
-      Returns null if not exists.
+    /**
+     * 
+     * @param text
+     * @return Perfil
+     * 
+     * Looks for a user based on its username and returns its object when found.
+     * Returns null otherwise.
      */
     public static Perfil buscarPerfil(String text) {
         for (Perfil base : base) {
@@ -47,9 +57,13 @@ public final class CaraLibroBD {
     }
     
 
-    /*
-    Returns true if the given String is contained 
-    as a name in current database, returns false otherwise.
+    /**
+     * 
+     * @param that
+     * @return boolean
+     * 
+     * Looks for a user based on its name and returns true if it exists on 
+     * arraylist or false if it doesnt.
      */
     public static boolean lookFor(String that) {
         for (Perfil base : base) {
@@ -60,8 +74,9 @@ public final class CaraLibroBD {
         return false;
     }
 
-    /*
-    Shows all users 
+    /**
+     * CT command method:
+     * Shows all users and their passwords
      */
     public static void pingUsers() {
         for (Perfil base : base) {
