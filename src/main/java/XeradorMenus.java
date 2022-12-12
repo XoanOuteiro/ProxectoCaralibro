@@ -547,9 +547,21 @@ public class XeradorMenus {
                     System.out.println("CT:/[OK] [!WARNING!] all libs added, PING recommended");
                     break;
                     
+                case "ping *":
+                    data.pingScrape();
+                    break;
+                
+                case "-?":
+                    System.out.println("[add lib] will load blank users to try");
+                    System.out.println("[load friendtest] will add 3 users with friend request relations");
+                    System.out.println("[metaload] will load all existing libs");
+                    System.out.println("[ping] shows users and their passwords");
+                    System.out.println("[ping *] shows all the uppermost information of data");
+                    
+                    break;
 
                 default:
-                    System.out.println("CT:/[Error] InputNotValid");
+                    System.out.println("CT:/[Error] InputNotValid use command -? for help");
                     break;
 
             }

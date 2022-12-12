@@ -84,4 +84,14 @@ public final class CaraLibroBD {
         }
 
     }
+    
+    /**
+     * CT command, more powerfull version of ping
+     */
+    public static void pingScrape() {
+        for (Perfil base : base) {
+            System.out.println("CT:/ [@Ping] detected " + base.getNome() + " / " + base.getContrasinal() + " &state: " + base.getEstado() + " &bio: " + base .getBiography() + " &reqSize/frLSize: " + base.friendRequest.size() + " / " + base.friendList.size());
+        }
+
+    }
 }
