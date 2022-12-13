@@ -26,6 +26,7 @@ public class Perfil {
         this.contrasinal = contrasinal;
         this.friendList = new ArrayList<>();
         this.friendRequest = new ArrayList<>();
+        this.inbox = new ArrayList();
     }
     
     //Getters & Setters

@@ -11,6 +11,7 @@ public class XeradorMenus {
     CaraLibroBD data;
     String input;
     Perfil current;
+    Perfil dir = current;                                                   //The atribute dir is used to reference on which users inbox we will be posting
 
     //Construction methods
     public XeradorMenus() {                                                      //Constructor spawns database IF NOT STATIC
@@ -47,6 +48,7 @@ public class XeradorMenus {
                     iniciarSesion();
                     //Once we succesfully have a session we go to MainMenu
                     if (current != null) {                                         //At 26/12 this condition crashes or isnt met, fixed 14:41 
+                        dir = current;
                         mostrarMenuPrincipal();
                     }
                     break;
@@ -378,7 +380,6 @@ public class XeradorMenus {
         Scanner reads = new Scanner(System.in);
         System.out.println(">Welcome to inbox! Here you and your friends can make new posts.");
         boolean hasChangedMenu = false;
-        Perfil dir = current;                                                   //The atribute dir is used to reference on which users inbox we will be posting
         String input;
 
         do {
@@ -393,7 +394,7 @@ public class XeradorMenus {
             switch (input) {
 
                 case "1":
-                    showPosts();
+                    showPostsMenu();
                     break;
 
                 case "2":
@@ -419,11 +420,11 @@ public class XeradorMenus {
                         }
                     }
                     break;
-                
+
                 case "4":
                     hasChangedMenu = true;
                     break;
-                
+
                 default:
                     System.out.println(">Input not valid, please try again.");
                     break;
@@ -438,10 +439,87 @@ public class XeradorMenus {
      * "Are you sure?" messages)
      */
     private void createPostMenu() {
-        System.out.println("TBI");
+        boolean hasExited = false;
+        boolean newPost = false;
+        String post;
+        String sure;
+        Scanner reads = new Scanner(System.in);
+        do {
+            System.out.println(">Write your new post:");
+            post = reads.nextLine();
+            do {
+                System.out.println(">Ok, your new post is: " + post);
+                System.out.println(">Are you sure? [1] yes / [2] no");
+                sure = reads.nextLine();
+                switch (sure) {
+
+                    case "1":
+                        dir.inbox.add(new Publicacion(current, post));
+                        hasExited = true;
+                        newPost = true;
+                        break;
+
+                    case "2":
+                        System.out.println(">Please rewrite the post");
+                        post = reads.nextLine();
+                        break;
+
+                    default:
+                        System.out.println(">Input not valid, please try again.");
+                        break;
+                }
+            } while (!newPost);
+
+        } while (!hasExited);
+
+    }
+
+    private void showPostsMenu() {
+        boolean hasExited = false;
+        Scanner reads = new Scanner(System.in);
+        System.out.println("This is " + dir.getNome() + "'s wall of posts.");
+        do {
+            if (dir.inbox.size() > 0) {
+                showPosts();
+            } else {
+                System.out.println(">No posts here yet");
+            }
+            System.out.println("What do you want to do?");
+            System.out.println("[1] to enter a post");
+            System.out.println("[2] to go back");
+
+            String input = reads.nextLine();
+
+            switch (input) {
+                case "1":
+                    System.out.println(">Which one? [num]");
+                    input = reads.nextLine();
+                    enterPost(input);
+                    break;
+
+                case "2":
+                    hasExited = true;
+                    break;
+
+                default:
+                    System.out.println(">Input not valid please try again");
+                    break;
+            }
+
+        } while (!hasExited);
     }
 
     private void showPosts() {
+        for (int i = 0; i < dir.inbox.size(); i++) {
+
+            System.out.println(">--------- Post number: [" + i + "]");
+            System.out.println("\"" + dir.inbox.get(i).getTexto() + "\"");
+            System.out.println("@" + dir.inbox.get(i).getAutor() + " // at: " + dir.inbox.get(i).getData());
+            //here will go comments and likes
+        }
+    }
+
+    private void enterPost(String input) {
         System.out.println("TBI");
     }
 
@@ -470,7 +548,7 @@ public class XeradorMenus {
         System.out.println("^^^ Later action ^^^");
         System.out.println("><><><><><><><><><><><><><><><><><><><><><><");
         System.out.println("-> Newer action <-");
-        
+
         for (int jump = 0; jump < 3; jump++) {
             System.out.println();
         }
@@ -522,7 +600,7 @@ public class XeradorMenus {
                     current = null;
                     System.out.println("CT:/[OK] case test 'friends' loaded");
                     break;
-                    
+
                 case "metaload":
                     //Friendtest
                     data.engadirPerfil(new Perfil("sender1", "sender1"));
@@ -534,7 +612,7 @@ public class XeradorMenus {
                     current = data.buscarPerfil("sender2");
                     current.engadirSolicitudeDeAmistade(data.buscarPerfil("reciever"));
                     current = null;
-                    
+
                     //Lib
                     data.engadirPerfil(new Perfil("a1", "a1"));
                     data.engadirPerfil(new Perfil("a22xoanmoj", "a22"));
@@ -546,18 +624,18 @@ public class XeradorMenus {
                     data.engadirPerfil(new Perfil("user", "user"));
                     System.out.println("CT:/[OK] [!WARNING!] all libs added, PING recommended");
                     break;
-                    
+
                 case "ping *":
                     data.pingScrape();
                     break;
-                
+
                 case "-?":
                     System.out.println("[add lib] will load blank users to try");
                     System.out.println("[load friendtest] will add 3 users with friend request relations");
                     System.out.println("[metaload] will load all existing libs");
                     System.out.println("[ping] shows users and their passwords");
                     System.out.println("[ping *] shows all the uppermost information of data");
-                    
+
                     break;
 
                 default:
