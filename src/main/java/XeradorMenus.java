@@ -515,7 +515,7 @@ public class XeradorMenus {
 
     private void showPosts() {
         clr();
-        
+
         for (int i = 0; i < dir.inbox.size(); i++) {
 
             System.out.println(">--------- Post number: [" + i + "]");
@@ -553,7 +553,7 @@ public class XeradorMenus {
                 break;
 
             case "2":
-                escribirComentario();
+                escribirComentario(dir.inbox.get(pos),current);
                 break;
 
             default:
@@ -570,11 +570,32 @@ public class XeradorMenus {
         } else {
 
             System.out.println(">You already liked this post");
-            
+
         }
     }
 
-    private void escribirComentario() {
+    private void escribirComentario(Publicacion pbl, Perfil p) {
+        clr();
+        boolean hasExited = false;
+        Scanner reads = new Scanner(System.in);
+
+        do {
+            System.out.println(">What do you want to comment?");
+            String text = reads.nextLine();
+            System.out.println("\n"); 
+            System.out.println(">This is your comment: ");
+            System.out.println(text);
+            System.out.println(">Are you sure you want to post it? [1] yes [0] no");
+            String input = reads.nextLine();
+            
+            switch(input){
+                case "1":
+                    hasExited = true;
+                    pbl.comments.add(new Comentario(p,text));
+                    break;
+            }
+
+        } while (!hasExited);
 
     }
 
