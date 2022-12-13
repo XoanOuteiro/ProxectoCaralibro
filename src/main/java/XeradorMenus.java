@@ -106,7 +106,7 @@ public class XeradorMenus {
                     break;
 
                 case "0":
-                    current = null;
+                    pecharSesion();
                     hasChangedMenu = true;                                          //Change session to null and jump back into sessions menu
                     break;
 
@@ -116,6 +116,10 @@ public class XeradorMenus {
             }
 
         } while (!hasChangedMenu);
+    }
+
+    private void pecharSesion() {
+        current = null;
     }
 
     /**
@@ -510,17 +514,96 @@ public class XeradorMenus {
     }
 
     private void showPosts() {
+        clr();
+        
         for (int i = 0; i < dir.inbox.size(); i++) {
 
             System.out.println(">--------- Post number: [" + i + "]");
             System.out.println("\"" + dir.inbox.get(i).getTexto() + "\"");
-            System.out.println("@" + dir.inbox.get(i).getAutor() + " // at: " + dir.inbox.get(i).getData());
+            System.out.println("@" + dir.inbox.get(i).getAutor().getNome() + " // at: " + dir.inbox.get(i).getData());
+            System.out.println(">Likes: " + dir.inbox.get(i).likes.size() + " >Comments: " + dir.inbox.get(i).comments.size());
+            System.out.println("\n\n");
             //here will go comments and likes
         }
     }
 
     private void enterPost(String input) {
-        System.out.println("TBI");
+        int pos = Integer.parseInt(input);
+        Scanner reads = new Scanner(System.in);
+
+        clr();
+        System.out.println(">--------- This is " + dir.inbox.get(pos).autor.getNome() + "'s post");
+        System.out.println("->Local post ID: " + pos);
+        System.out.println("- " + dir.inbox.get(pos).getTexto() + " -");
+        System.out.println("->>Liked by: ");
+        showThisLikes(pos);
+        System.out.println("->>Comments: ");
+        showThisComments(pos);
+
+        System.out.println("//-------------------------//");
+        System.out.println("What do you wish to do?");
+        System.out.println("[1] to like this post");
+        System.out.println("[2] to comment on this post");
+        System.out.println("[] Any other key + enter to go back");
+        String inputer = reads.nextLine();
+
+        switch (inputer) {
+            case "1":
+                facerMeGusta(dir.inbox.get(pos));
+                break;
+
+            case "2":
+                escribirComentario();
+                break;
+
+            default:
+                break;
+        }
+
+    }
+
+    private void facerMeGusta(Publicacion publ) {
+        if (!publ.likes.contains(current)) {
+
+            publ.likes.add(current);
+
+        } else {
+
+            System.out.println(">You already liked this post");
+            
+        }
+    }
+
+    private void escribirComentario() {
+
+    }
+
+    private void showThisLikes(int pos) {
+        if (dir.inbox.get(pos).likes.size() == 0) {
+
+            System.out.println("-Looks like no one has liked this post yet :c -");
+
+        } else {
+
+            for (int cnt = 0; cnt < dir.inbox.get(pos).likes.size(); cnt++) {
+                System.out.println(dir.inbox.get(pos).likes.get(cnt).getNome());
+            }
+        }
+    }
+
+    private void showThisComments(int pos) {
+        if (dir.inbox.get(pos).comments.size() == 0) {
+
+            System.out.println("-Looks like no one has commented on this post yet :c -");
+
+        } else {
+
+            for (int cnt = 0; cnt < dir.inbox.get(pos).comments.size(); cnt++) {
+                System.out.println(dir.inbox.get(pos).comments.get(cnt).autor.getNome() + ": ");
+                System.out.println("\"" + dir.inbox.get(pos).comments.get(cnt).getTexto() + "\"");
+                System.out.println(">-------------------------------------------------------------------<");
+            }
+        }
     }
 
     //Sthetics
@@ -601,6 +684,20 @@ public class XeradorMenus {
                     System.out.println("CT:/[OK] case test 'friends' loaded");
                     break;
 
+                case "postest":
+                    data.engadirPerfil(new Perfil("poster1", "poster1"));
+                    data.engadirPerfil(new Perfil("poster2", "poster2"));
+
+                    data.buscarPerfil("poster1").friendList.add(data.buscarPerfil("poster2"));
+                    data.buscarPerfil("poster2").friendList.add(data.buscarPerfil("poster1"));
+
+                    data.buscarPerfil("poster1").inbox.add(new Publicacion(data.buscarPerfil("poster1"), "blablabla1-1"));
+                    data.buscarPerfil("poster1").inbox.add(new Publicacion(data.buscarPerfil("poster1"), "blablabla2-1"));
+                    data.buscarPerfil("poster1").inbox.add(new Publicacion(data.buscarPerfil("poster2"), "blablabla1-2"));
+                    data.buscarPerfil("poster2").inbox.add(new Publicacion(data.buscarPerfil("poster1"), "blablabla3"));
+                    data.buscarPerfil("poster2").inbox.add(new Publicacion(data.buscarPerfil("poster2"), "blablabla4"));
+                    break;
+
                 case "metaload":
                     //Friendtest
                     data.engadirPerfil(new Perfil("sender1", "sender1"));
@@ -622,6 +719,20 @@ public class XeradorMenus {
                     data.engadirPerfil(new Perfil("anon12", "lolmao"));
                     data.engadirPerfil(new Perfil("kev", "javac"));
                     data.engadirPerfil(new Perfil("user", "user"));
+
+                    //Postest
+                    data.engadirPerfil(new Perfil("poster1", "poster1"));
+                    data.engadirPerfil(new Perfil("poster2", "poster2"));
+
+                    data.buscarPerfil("poster1").friendList.add(data.buscarPerfil("poster2"));
+                    data.buscarPerfil("poster2").friendList.add(data.buscarPerfil("poster1"));
+
+                    data.buscarPerfil("poster1").inbox.add(new Publicacion(data.buscarPerfil("poster1"), "blablabla1-1"));
+                    data.buscarPerfil("poster1").inbox.add(new Publicacion(data.buscarPerfil("poster1"), "blablabla2-1"));
+                    data.buscarPerfil("poster1").inbox.add(new Publicacion(data.buscarPerfil("poster2"), "blablabla1-2"));
+                    data.buscarPerfil("poster2").inbox.add(new Publicacion(data.buscarPerfil("poster1"), "blablabla3"));
+                    data.buscarPerfil("poster2").inbox.add(new Publicacion(data.buscarPerfil("poster2"), "blablabla4"));
+
                     System.out.println("CT:/[OK] [!WARNING!] all libs added, PING recommended");
                     break;
 
@@ -635,6 +746,8 @@ public class XeradorMenus {
                     System.out.println("[metaload] will load all existing libs");
                     System.out.println("[ping] shows users and their passwords");
                     System.out.println("[ping *] shows all the uppermost information of data");
+                    System.out.println("[load postest] to load post debugging");
+                    System.out.println("[exit] to get out of this menu");
 
                     break;
 

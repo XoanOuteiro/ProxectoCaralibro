@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  *
@@ -9,7 +10,8 @@ public class Publicacion {
     LocalDate data;
     String texto;
     Perfil autor;
-    
+    ArrayList <Perfil> likes;
+    ArrayList <Comentario> comments;
     
     //Construction methods
     /**
@@ -26,6 +28,8 @@ public class Publicacion {
         this.data = LocalDate.now();
         this.texto = texto;
         this.autor = autor;
+        this.likes = new ArrayList();
+        this.comments = new ArrayList();
     }
     
     //Getters & Setters
