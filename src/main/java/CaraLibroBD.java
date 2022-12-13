@@ -90,8 +90,17 @@ public final class CaraLibroBD {
      */
     public static void pingScrape() {
         for (Perfil base : base) {
-            System.out.println("CT:/ [@Ping] detected " + base.getNome() + " / " + base.getContrasinal() + " &state: " + base.getEstado() + " &bio: " + base .getBiography() + " &reqSize/frLSize: " + base.friendRequest.size() + " / " + base.friendList.size());
+            System.out.println("CT:/ [@Ping] detected " + base.getNome() + " / " + base.getContrasinal() + "\t &state: " + base.getEstado() + "\t &bio: " + base .getBiography() + "\t &reqSize/frLSize: " + base.friendRequest.size() + " / " + base.friendList.size());
         }
 
+    }
+    
+    /**
+     * CT command pings users and their posts quantitative data
+     */
+    public static void pingPoster(){
+        for (Perfil base : base) {
+            System.out.println("CT:/ [@Ping] detected " + base.getNome() + " / " + base.getContrasinal() + "\t &posts:" + base.inbox.size() + "\t &friends:" + base.friendList.size());
+        }
     }
 }

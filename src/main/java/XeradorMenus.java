@@ -1,4 +1,5 @@
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -705,7 +706,7 @@ public class XeradorMenus {
                     System.out.println("CT:/[OK] case test 'friends' loaded");
                     break;
 
-                case "postest":
+                case "load postest":
                     data.engadirPerfil(new Perfil("poster1", "poster1"));
                     data.engadirPerfil(new Perfil("poster2", "poster2"));
 
@@ -717,6 +718,11 @@ public class XeradorMenus {
                     data.buscarPerfil("poster1").inbox.add(new Publicacion(data.buscarPerfil("poster2"), "blablabla1-2"));
                     data.buscarPerfil("poster2").inbox.add(new Publicacion(data.buscarPerfil("poster1"), "blablabla3"));
                     data.buscarPerfil("poster2").inbox.add(new Publicacion(data.buscarPerfil("poster2"), "blablabla4"));
+                    
+                    data.buscarPerfil("poster2").inbox.get(0).comments.add(new Comentario(data.buscarPerfil("poster1"),"Comentario numero 1"));
+                    data.buscarPerfil("poster2").inbox.get(0).comments.add(new Comentario(data.buscarPerfil("poster1"),"Comentario numero 2"));
+                    data.buscarPerfil("poster2").inbox.get(0).comments.add(new Comentario(data.buscarPerfil("poster1"),"Comentario numero 3"));
+                    data.buscarPerfil("poster2").inbox.get(0).comments.add(new Comentario(data.buscarPerfil("poster2"),"Comentario numero 1"));
                     break;
 
                 case "metaload":
@@ -753,12 +759,25 @@ public class XeradorMenus {
                     data.buscarPerfil("poster1").inbox.add(new Publicacion(data.buscarPerfil("poster2"), "blablabla1-2"));
                     data.buscarPerfil("poster2").inbox.add(new Publicacion(data.buscarPerfil("poster1"), "blablabla3"));
                     data.buscarPerfil("poster2").inbox.add(new Publicacion(data.buscarPerfil("poster2"), "blablabla4"));
+                    
+                    data.buscarPerfil("poster2").inbox.get(0).comments.add(new Comentario(data.buscarPerfil("poster1"),"Comentario numero 1"));
+                    data.buscarPerfil("poster2").inbox.get(0).comments.add(new Comentario(data.buscarPerfil("poster1"),"Comentario numero 2"));
+                    data.buscarPerfil("poster2").inbox.get(0).comments.add(new Comentario(data.buscarPerfil("poster1"),"Comentario numero 3"));
+                    data.buscarPerfil("poster2").inbox.get(0).comments.add(new Comentario(data.buscarPerfil("poster2"),"Comentario numero 4"));
 
                     System.out.println("CT:/[OK] [!WARNING!] all libs added, PING recommended");
                     break;
 
                 case "ping *":
                     data.pingScrape();
+                    break;
+                    
+                case "ping -post":
+                    data.pingPoster();
+                    break;
+                    
+                case "SwipeAllUsers":
+                    data.base = new ArrayList();
                     break;
 
                 case "-?":
@@ -767,7 +786,9 @@ public class XeradorMenus {
                     System.out.println("[metaload] will load all existing libs");
                     System.out.println("[ping] shows users and their passwords");
                     System.out.println("[ping *] shows all the uppermost information of data");
+                    System.out.println("[ping -posts] to show users basic post and friends info"); 
                     System.out.println("[load postest] to load post debugging");
+                    System.out.println("[SwipeAllUsers] will rerun database, deleting all units");
                     System.out.println("[exit] to get out of this menu");
 
                     break;
