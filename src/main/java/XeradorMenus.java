@@ -70,7 +70,7 @@ public class XeradorMenus {
         } while (!hasChangedMenu);
     }
 
-    public void mostrarMenuPrincipal() {
+    private void mostrarMenuPrincipal() {
         //Method atributes
         boolean hasChangedMenu = false;
         Scanner reads = new Scanner(System.in);
@@ -246,7 +246,7 @@ public class XeradorMenus {
     /**
      * This is a utility non-essential menu for managing selfs friendList
      */
-    public void friendMenu() {
+    private void friendMenu() {
         boolean hasChanged = false;
         Scanner reads = new Scanner(System.in);
 
@@ -288,7 +288,7 @@ public class XeradorMenus {
     /**
      * This is a non-essential menu for managing selfs friend requests
      */
-    public void printFriendRequestMenu() {
+    private void printFriendRequestMenu() {
         Scanner reads = new Scanner(System.in);
         System.out.println(">Who do you want to add as a friend?");
         String name = reads.nextLine();
@@ -321,7 +321,7 @@ public class XeradorMenus {
     /**
      * This method allows for visualizing selfs added friends as names
      */
-    public void printFriendList() {
+    private void printFriendList() {
         Scanner reads = new Scanner(System.in);
         System.out.println(">---------------------------------------------------------------<");
         if (current.friendList.size() > 0) {
@@ -339,7 +339,7 @@ public class XeradorMenus {
      * This method shows a list enumerating all users that have sent a yet
      * unanswered request
      */
-    public void printFriendRequestList() {
+    private void printFriendRequestList() {
         Scanner reads = new Scanner(System.in);
         if (current.friendRequest.size() > 0) {
 
@@ -632,7 +632,7 @@ public class XeradorMenus {
     /**
      * Prints CaraLibro in ASCII art.
      */
-    public void doLogo() {
+    private void doLogo() {
         System.out.println("   _____                _      _ _               \n"
                 + "  / ____|              | |    (_) |              \n"
                 + " | |     __ _ _ __ __ _| |     _| |__  _ __ ___  \n"
@@ -800,6 +800,6 @@ public class XeradorMenus {
             }
 
         } while (!hasExtd);
-
+        
     }
 }
