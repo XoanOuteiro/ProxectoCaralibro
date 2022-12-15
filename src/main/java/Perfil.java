@@ -29,6 +29,25 @@ public class Perfil {
         this.inbox = new ArrayList();
     }
     
+    /**
+     * 
+     * @param nome
+     * @param contrasinal
+     * @param estado
+     * @param biografia 
+     * 
+     * CT users construction method.
+     */
+    public Perfil(String nome, String contrasinal, String estado, String biografia){
+        this.nome = nome;
+        this.contrasinal = contrasinal;
+        this.estado = estado;
+        this.biography = biografia;
+        this.friendList = new ArrayList<>();
+        this.friendRequest = new ArrayList<>();
+        this.inbox = new ArrayList();
+    }
+    
     //Getters & Setters
     
     public String getNome() {

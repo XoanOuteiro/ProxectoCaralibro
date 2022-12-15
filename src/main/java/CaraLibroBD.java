@@ -100,7 +100,7 @@ public final class CaraLibroBD {
      */
     public static void pingPoster(){
         for (Perfil base : base) {
-            System.out.println("CT:/ [@Ping] detected " + base.getNome() + " / " + base.getContrasinal() + "\t &posts:" + base.inbox.size() + "\t &friends:" + base.friendList.size());
+            System.out.println("CT:/ [@Ping] detected \t" + base.getNome() + " / \t" + base.getContrasinal() + "\t &posts:" + base.inbox.size() + "\t &friends:" + base.friendList.size());
         }
     }
 }

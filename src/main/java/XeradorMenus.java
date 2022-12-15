@@ -22,7 +22,7 @@ public class XeradorMenus {
     //Essential menus
     public void mostrarMenuInicial() {
         doLogo();
-        System.out.println("--Welcome to CaraLibro v0.0.7");
+        System.out.println("--Welcome to CaraLibro v0.0.9");
         System.out.println("--To continue please press an option number and the [ENTER_KEY]");
 
         //Cycle loop is existed upon detecting a valid intput that swaps to another menu
@@ -554,7 +554,7 @@ public class XeradorMenus {
                 break;
 
             case "2":
-                escribirComentario(dir.inbox.get(pos),current);
+                escribirComentario(dir.inbox.get(pos), current);
                 break;
 
             default:
@@ -583,16 +583,16 @@ public class XeradorMenus {
         do {
             System.out.println(">What do you want to comment?");
             String text = reads.nextLine();
-            System.out.println("\n"); 
+            System.out.println("\n");
             System.out.println(">This is your comment: ");
             System.out.println(text);
             System.out.println(">Are you sure you want to post it? [1] yes [0] no");
             String input = reads.nextLine();
-            
-            switch(input){
+
+            switch (input) {
                 case "1":
                     hasExited = true;
-                    pbl.comments.add(new Comentario(p,text));
+                    pbl.comments.add(new Comentario(p, text));
                     break;
             }
 
@@ -674,14 +674,7 @@ public class XeradorMenus {
             switch (reads.nextLine()) {
 
                 case "add lib":                                                     //Adds an amount of users
-                    data.engadirPerfil(new Perfil("a1", "a1"));
-                    data.engadirPerfil(new Perfil("a22xoanmoj", "a22"));
-                    data.engadirPerfil(new Perfil("bmo", "bmo_"));
-                    data.engadirPerfil(new Perfil("rotary", "rot21"));
-                    data.engadirPerfil(new Perfil("jess", "123abc."));
-                    data.engadirPerfil(new Perfil("anon12", "lolmao"));
-                    data.engadirPerfil(new Perfil("kev", "javac"));
-                    data.engadirPerfil(new Perfil("user", "user"));
+                    loadLib1();
                     System.out.println("CT:/[OK] 8 users added.");
                     break;
 
@@ -694,101 +687,47 @@ public class XeradorMenus {
                     break;
 
                 case "load friendtest":
-                    data.engadirPerfil(new Perfil("sender1", "sender1"));
-                    data.engadirPerfil(new Perfil("sender2", "sender2"));
-                    data.engadirPerfil(new Perfil("reciever", "reciever"));
-
-                    current = data.buscarPerfil("sender1");
-                    current.engadirSolicitudeDeAmistade(data.buscarPerfil("reciever"));
-                    current = data.buscarPerfil("sender2");
-                    current.engadirSolicitudeDeAmistade(data.buscarPerfil("reciever"));
-                    current = null;
+                    loadFriendtest();
                     System.out.println("CT:/[OK] case test 'friends' loaded");
                     break;
 
                 case "load postest":
-                    data.engadirPerfil(new Perfil("poster1", "poster1"));
-                    data.engadirPerfil(new Perfil("poster2", "poster2"));
-
-                    data.buscarPerfil("poster1").friendList.add(data.buscarPerfil("poster2"));
-                    data.buscarPerfil("poster2").friendList.add(data.buscarPerfil("poster1"));
-
-                    data.buscarPerfil("poster1").inbox.add(new Publicacion(data.buscarPerfil("poster1"), "blablabla1-1"));
-                    data.buscarPerfil("poster1").inbox.add(new Publicacion(data.buscarPerfil("poster1"), "blablabla2-1"));
-                    data.buscarPerfil("poster1").inbox.add(new Publicacion(data.buscarPerfil("poster2"), "blablabla1-2"));
-                    data.buscarPerfil("poster2").inbox.add(new Publicacion(data.buscarPerfil("poster1"), "blablabla3"));
-                    data.buscarPerfil("poster2").inbox.add(new Publicacion(data.buscarPerfil("poster2"), "blablabla4"));
-                    
-                    data.buscarPerfil("poster2").inbox.get(0).comments.add(new Comentario(data.buscarPerfil("poster1"),"Comentario numero 1"));
-                    data.buscarPerfil("poster2").inbox.get(0).comments.add(new Comentario(data.buscarPerfil("poster1"),"Comentario numero 2"));
-                    data.buscarPerfil("poster2").inbox.get(0).comments.add(new Comentario(data.buscarPerfil("poster1"),"Comentario numero 3"));
-                    data.buscarPerfil("poster2").inbox.get(0).comments.add(new Comentario(data.buscarPerfil("poster2"),"Comentario numero 1"));
+                    loadPostest();
                     break;
 
                 case "metaload":
                     //Friendtest
-                    data.engadirPerfil(new Perfil("sender1", "sender1"));
-                    data.engadirPerfil(new Perfil("sender2", "sender2"));
-                    data.engadirPerfil(new Perfil("reciever", "reciever"));
-
-                    current = data.buscarPerfil("sender1");
-                    current.engadirSolicitudeDeAmistade(data.buscarPerfil("reciever"));
-                    current = data.buscarPerfil("sender2");
-                    current.engadirSolicitudeDeAmistade(data.buscarPerfil("reciever"));
-                    current = null;
-
-                    //Lib
-                    data.engadirPerfil(new Perfil("a1", "a1"));
-                    data.engadirPerfil(new Perfil("a22xoanmoj", "a22"));
-                    data.engadirPerfil(new Perfil("bmo", "bmo_"));
-                    data.engadirPerfil(new Perfil("rotary", "rot21"));
-                    data.engadirPerfil(new Perfil("jess", "123abc."));
-                    data.engadirPerfil(new Perfil("anon12", "lolmao"));
-                    data.engadirPerfil(new Perfil("kev", "javac"));
-                    data.engadirPerfil(new Perfil("user", "user"));
-
-                    //Postest
-                    data.engadirPerfil(new Perfil("poster1", "poster1"));
-                    data.engadirPerfil(new Perfil("poster2", "poster2"));
-
-                    data.buscarPerfil("poster1").friendList.add(data.buscarPerfil("poster2"));
-                    data.buscarPerfil("poster2").friendList.add(data.buscarPerfil("poster1"));
-
-                    data.buscarPerfil("poster1").inbox.add(new Publicacion(data.buscarPerfil("poster1"), "blablabla1-1"));
-                    data.buscarPerfil("poster1").inbox.add(new Publicacion(data.buscarPerfil("poster1"), "blablabla2-1"));
-                    data.buscarPerfil("poster1").inbox.add(new Publicacion(data.buscarPerfil("poster2"), "blablabla1-2"));
-                    data.buscarPerfil("poster2").inbox.add(new Publicacion(data.buscarPerfil("poster1"), "blablabla3"));
-                    data.buscarPerfil("poster2").inbox.add(new Publicacion(data.buscarPerfil("poster2"), "blablabla4"));
-                    
-                    data.buscarPerfil("poster2").inbox.get(0).comments.add(new Comentario(data.buscarPerfil("poster1"),"Comentario numero 1"));
-                    data.buscarPerfil("poster2").inbox.get(0).comments.add(new Comentario(data.buscarPerfil("poster1"),"Comentario numero 2"));
-                    data.buscarPerfil("poster2").inbox.get(0).comments.add(new Comentario(data.buscarPerfil("poster1"),"Comentario numero 3"));
-                    data.buscarPerfil("poster2").inbox.get(0).comments.add(new Comentario(data.buscarPerfil("poster2"),"Comentario numero 4"));
-
+                    loadPostest();
+                    loadFriendtest();
                     System.out.println("CT:/[OK] [!WARNING!] all libs added, PING recommended");
                     break;
 
                 case "ping *":
                     data.pingScrape();
                     break;
-                    
+
                 case "ping -post":
                     data.pingPoster();
                     break;
-                    
+
                 case "SwipeAllUsers":
                     data.base = new ArrayList();
+                    break;
+                    
+                case "emu -1":
+                    loadSimuLib();
                     break;
 
                 case "-?":
                     System.out.println("[add lib] will load blank users to try");
                     System.out.println("[load friendtest] will add 3 users with friend request relations");
-                    System.out.println("[metaload] will load all existing libs");
+                    System.out.println("[metaload] will load all test cases");
                     System.out.println("[ping] shows users and their passwords");
                     System.out.println("[ping *] shows all the uppermost information of data");
-                    System.out.println("[ping -posts] to show users basic post and friends info"); 
+                    System.out.println("[ping -posts] to show users basic post and friends info");
                     System.out.println("[load postest] to load post debugging");
                     System.out.println("[SwipeAllUsers] will rerun database, deleting all units");
+                    System.out.println("[emu -1] to load LifeLib1.0");
                     System.out.println("[exit] to get out of this menu");
 
                     break;
@@ -800,6 +739,60 @@ public class XeradorMenus {
             }
 
         } while (!hasExtd);
+
+    }
+
+    private void loadLib1() {
+        data.engadirPerfil(new Perfil("a1", "a1"));
+        data.engadirPerfil(new Perfil("a22xoanmoj", "a22"));
+        data.engadirPerfil(new Perfil("bmo", "bmo_"));
+        data.engadirPerfil(new Perfil("rotary", "rot21"));
+        data.engadirPerfil(new Perfil("jess", "123abc."));
+        data.engadirPerfil(new Perfil("anon12", "lolmao"));
+        data.engadirPerfil(new Perfil("kev", "javac"));
+        data.engadirPerfil(new Perfil("user", "user"));
+    }
+
+    private void loadPostest() {
+        data.engadirPerfil(new Perfil("poster1", "poster1"));
+        data.engadirPerfil(new Perfil("poster2", "poster2"));
+
+        data.buscarPerfil("poster1").friendList.add(data.buscarPerfil("poster2"));
+        data.buscarPerfil("poster2").friendList.add(data.buscarPerfil("poster1"));
+
+        data.buscarPerfil("poster1").inbox.add(new Publicacion(data.buscarPerfil("poster1"), "blablabla1-1"));
+        data.buscarPerfil("poster1").inbox.add(new Publicacion(data.buscarPerfil("poster1"), "blablabla2-1"));
+        data.buscarPerfil("poster1").inbox.add(new Publicacion(data.buscarPerfil("poster2"), "blablabla1-2"));
+        data.buscarPerfil("poster2").inbox.add(new Publicacion(data.buscarPerfil("poster1"), "blablabla3"));
+        data.buscarPerfil("poster2").inbox.add(new Publicacion(data.buscarPerfil("poster2"), "blablabla4"));
+
+        data.buscarPerfil("poster2").inbox.get(0).comments.add(new Comentario(data.buscarPerfil("poster1"), "Comentario numero 1"));
+        data.buscarPerfil("poster2").inbox.get(0).comments.add(new Comentario(data.buscarPerfil("poster1"), "Comentario numero 2"));
+        data.buscarPerfil("poster2").inbox.get(0).comments.add(new Comentario(data.buscarPerfil("poster1"), "Comentario numero 3"));
+        data.buscarPerfil("poster2").inbox.get(0).comments.add(new Comentario(data.buscarPerfil("poster2"), "Comentario numero 1"));
+    }
+
+    private void loadFriendtest() {
+        data.engadirPerfil(new Perfil("sender1", "sender1"));
+        data.engadirPerfil(new Perfil("sender2", "sender2"));
+        data.engadirPerfil(new Perfil("reciever", "reciever"));
+
+        current = data.buscarPerfil("sender1");
+        current.engadirSolicitudeDeAmistade(data.buscarPerfil("reciever"));
+        current = data.buscarPerfil("sender2");
+        current.engadirSolicitudeDeAmistade(data.buscarPerfil("reciever"));
+        current = null;
+    }
+    
+    private void loadSimuLib(){
+        //Create users
+        data.engadirPerfil(new Perfil("testGuy", "1234","Hiii","This is a biography"));
+        data.engadirPerfil(new Perfil("randomUser_", "psswd123","Eating","This is another biography"));
+        data.engadirPerfil(new Perfil("lad", "cotl234","ñ","This is yet another biography"));
+        data.engadirPerfil(new Perfil("uppercasegGuy", "1231234","G g","This is the forth biography"));
+        data.engadirPerfil(new Perfil("secondLad", "sec12",":)))","This isnt a biography"));
+        data.engadirPerfil(new Perfil("testGuy_2", "12345678","Hiii, heloo","c:"));
+        data.engadirPerfil(new Perfil("testGuyWasTaken", "1","testGuy :(","AAAAAAAAAAAA"));
         
     }
 }
