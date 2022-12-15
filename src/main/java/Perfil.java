@@ -16,6 +16,7 @@ public class Perfil {
     ArrayList <Perfil> friendList;
     ArrayList <String> friendRequest;
     ArrayList <Publicacion> inbox;
+    ArrayList <Mensaxe> msgbox;
     
     //Data
     CaraLibroBD data;
@@ -27,6 +28,7 @@ public class Perfil {
         this.friendList = new ArrayList<>();
         this.friendRequest = new ArrayList<>();
         this.inbox = new ArrayList();
+        this.msgbox = new ArrayList();
     }
     
     /**
@@ -154,4 +156,39 @@ public class Perfil {
         this.inbox.add(pub);
     }
   
+    /**
+     * 
+     * 
+     * 
+     */
+    public void engadirMensaxePrivada (Mensaxe m) {
+        this.msgbox.add(m);
+    }
+    public  void sendMssg(Perfil reciever, Perfil sender ,Mensaxe m){
+        reciever.msgbox.add(m);
+        sender.engadirMensaxePrivada(m);
+    }
+    
+    /**
+     * 
+     * 
+     * 
+     */
+    public void eliminarMensaxe (Mensaxe m) {
+        this.msgbox.remove(m);
+    }
+    public void deleteBoth(Mensaxe m, Perfil p){
+        eliminarMensaxe(m);
+        p.eliminarMensaxe(m);
+    }
+    
+    /**
+     * 
+    
+     * 
+     */
+    
+    public Mensaxe getMssg(int post){
+        return this.msgbox.get(post);
+    }
 }

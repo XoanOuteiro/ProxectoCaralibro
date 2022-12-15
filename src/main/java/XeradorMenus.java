@@ -256,6 +256,7 @@ public class XeradorMenus {
             System.out.println("[1] to send a friend request");
             System.out.println("[2] to see friend requests");
             System.out.println("[3] to see FriendList");
+            System.out.println("[4] to see chats");
             System.out.println("[0] to exit menu");
 
             String input = reads.nextLine();
@@ -273,6 +274,10 @@ public class XeradorMenus {
                     printFriendList();
                     break;
 
+                case "4":
+                    chatMenu();
+                    break;
+
                 case "0":
                     hasChanged = true;
                     break;
@@ -283,6 +288,114 @@ public class XeradorMenus {
             }
 
         } while (!hasChanged);
+    }
+
+    /**
+     *
+     *
+     *
+     */
+    private void chatMenu() {
+        Scanner reads = new Scanner(System.in);
+        boolean hasExited = false;
+
+        do {
+            clr();
+            printFriendList();
+            System.out.println("What do you want to do?");
+            System.out.println("[1] to enter a chat");
+            System.out.println("[0] to go back");
+            String input = reads.nextLine();
+            switch (input) {
+                case "1":
+                    System.out.println(">Which friends chat would you like to enter? [name]");
+                    String input2 = reads.nextLine();
+                    if (data.lookFor(input2)) {
+                        if (current.friendListContainsName(input2)) {
+                            inChat(data.buscarPerfil(input2));
+                        } else {
+                            System.out.println(">That user has not added you as a friend");
+                        }
+                    } else {
+                        System.out.println(">That user does not exist");
+                    }
+                    break;
+
+                case "0":
+                    hasExited = true;
+                    break;
+
+                default:
+                    System.out.println(">Input not valid, please try again.");
+            }
+
+        } while (!hasExited);
+    }
+
+    /**
+     *
+     */
+    private void inChat(Perfil p) {
+        Scanner reads = new Scanner(System.in);
+        boolean hasExited = false;
+        do {
+            printMessages(p);
+            System.out.println(">------------------------------------------<");
+            System.out.println(">[1]Write a new message");
+            System.out.println("[2]Remove a message");
+            System.out.println("[0] to exit the menu");
+            String input = reads.nextLine();
+            switch (input) {
+
+                case "1":
+                    System.out.println(">Write your message: ");
+                    String content = reads.nextLine();
+                    current.sendMssg(p, current, new Mensaxe(content, current));
+                    break;
+
+                case "2":
+                    System.out.println(">Which one? [0-n]");
+                    String input2 = reads.nextLine();
+                    int input3 = Integer.parseInt(input2);
+                    current.deleteBoth(current.getMssg(input3), p);
+                    break;
+
+                case "0":
+                    hasExited = true;
+                    break;
+
+                default:
+                    System.out.println(">Input not valid lmao.");
+                    break;
+
+            }
+        } while (!hasExited);
+    }
+
+    private void printMessages(Perfil p) {
+        if (p.msgbox.size() > 0) {
+            for (int i = 0; i < current.msgbox.size(); i++) {
+
+                if (current.msgbox.get(i).getRemitente().getNome() != current.getNome()) {
+                    current.msgbox.get(i).setLido(true);                                                                            //If we are not the author, set to read.
+                }
+
+                if (p.msgbox.get(i).getRemitente().getNome().equals(current.getNome())) {
+
+                    System.out.println(p.msgbox.get(i).getTexto());
+                    System.out.println("-sent by: " + p.msgbox.get(i).getRemitente().getNome() + " -at:" +  p.msgbox.get(i).getData() + " -read: " + hasBeenRead(i) + " -id:" + i);
+                    System.out.println(">-------------------------------------------------------------------<");
+
+                }
+            }
+        } else {
+            System.out.println(">No messages yet");
+        }
+    }
+
+    private String hasBeenRead(int i) {
+        String read;
+        return read = current.msgbox.get(i).isLido() ? "Yes" : "No";
     }
 
     /**
@@ -713,7 +826,7 @@ public class XeradorMenus {
                 case "SwipeAllUsers":
                     data.base = new ArrayList();
                     break;
-                    
+
                 case "emu -1":
                     loadSimuLib();
                     break;
@@ -783,16 +896,16 @@ public class XeradorMenus {
         current.engadirSolicitudeDeAmistade(data.buscarPerfil("reciever"));
         current = null;
     }
-    
-    private void loadSimuLib(){
+
+    private void loadSimuLib() {
         //Create users
-        data.engadirPerfil(new Perfil("testGuy", "1234","Hiii","This is a biography"));
-        data.engadirPerfil(new Perfil("randomUser_", "psswd123","Eating","This is another biography"));
-        data.engadirPerfil(new Perfil("lad", "cotl234","ñ","This is yet another biography"));
-        data.engadirPerfil(new Perfil("uppercasegGuy", "1231234","G g","This is the forth biography"));
-        data.engadirPerfil(new Perfil("secondLad", "sec12",":)))","This isnt a biography"));
-        data.engadirPerfil(new Perfil("testGuy_2", "12345678","Hiii, heloo","c:"));
-        data.engadirPerfil(new Perfil("testGuyWasTaken", "1","testGuy :(","AAAAAAAAAAAA"));
-        
+        data.engadirPerfil(new Perfil("testGuy", "1234", "Hiii", "This is a biography"));
+        data.engadirPerfil(new Perfil("randomUser_", "psswd123", "Eating", "This is another biography"));
+        data.engadirPerfil(new Perfil("lad", "cotl234", "ñ", "This is yet another biography"));
+        data.engadirPerfil(new Perfil("uppercasegGuy", "1231234", "G g", "This is the forth biography"));
+        data.engadirPerfil(new Perfil("secondLad", "sec12", ":)))", "This isnt a biography"));
+        data.engadirPerfil(new Perfil("testGuy_2", "12345678", "Hiii, heloo", "c:"));
+        data.engadirPerfil(new Perfil("testGuyWasTaken", "1", "testGuy :(", "AAAAAAAAAAAA"));
+
     }
 }
