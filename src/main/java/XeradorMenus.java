@@ -375,7 +375,7 @@ public class XeradorMenus {
 
     private void printMessages(Perfil p) {
         if (current.getChatSizeOf(p) > 0) {
-            for (int i = 0; i < current.msgbox.size(); i++) {
+            for (int i = 0; i < current.msgbox.size() && i < p.msgbox.size(); i++) {
 
                 if (current.msgbox.get(i).getRemitente().getNome() != current.getNome()) {
                     current.msgbox.get(i).setLido(true);                                                                            //If we are not the author, set to read.

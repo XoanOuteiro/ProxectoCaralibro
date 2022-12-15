@@ -197,7 +197,8 @@ public class Perfil {
      */
     public int getChatSizeOf(Perfil target) {
         int mssgAmm = 0;
-        for (int i = 0; i < this.msgbox.size(); i++) {
+        System.out.println("pepe1");
+        for (int i = 0; i < this.msgbox.size() && i < target.msgbox.size(); i++) {
             if (this.msgbox.get(i).getRemitente().getNome().equals(target.getNome()) || target.msgbox.get(i).getRemitente().getNome().equals(this.nome)) {
                 mssgAmm++;
             }
