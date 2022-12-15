@@ -339,9 +339,10 @@ public class XeradorMenus {
         Scanner reads = new Scanner(System.in);
         boolean hasExited = false;
         do {
+            System.out.println(current.getChatSizeOf(p));
             printMessages(p);
             System.out.println(">------------------------------------------<");
-            System.out.println(">[1]Write a new message");
+            System.out.println("[1]Write a new message");
             System.out.println("[2]Remove a message");
             System.out.println("[0] to exit the menu");
             String input = reads.nextLine();
@@ -350,7 +351,7 @@ public class XeradorMenus {
                 case "1":
                     System.out.println(">Write your message: ");
                     String content = reads.nextLine();
-                    current.sendMssg(p, current, new Mensaxe(content, current));
+                    current.sendMssg(p, new Mensaxe(content, current));
                     break;
 
                 case "2":
@@ -365,7 +366,7 @@ public class XeradorMenus {
                     break;
 
                 default:
-                    System.out.println(">Input not valid lmao.");
+                    System.out.println(">Input not valid.");
                     break;
 
             }
@@ -373,19 +374,17 @@ public class XeradorMenus {
     }
 
     private void printMessages(Perfil p) {
-        if (p.msgbox.size() > 0) {
+        if (current.getChatSizeOf(p) > 0) {
             for (int i = 0; i < current.msgbox.size(); i++) {
 
                 if (current.msgbox.get(i).getRemitente().getNome() != current.getNome()) {
                     current.msgbox.get(i).setLido(true);                                                                            //If we are not the author, set to read.
                 }
 
-                if (p.msgbox.get(i).getRemitente().getNome().equals(current.getNome())) {
-
-                    System.out.println(p.msgbox.get(i).getTexto());
-                    System.out.println("-sent by: " + p.msgbox.get(i).getRemitente().getNome() + " -at:" +  p.msgbox.get(i).getData() + " -read: " + hasBeenRead(i) + " -id:" + i);
+                if (p.msgbox.get(i).getRemitente().getNome().equals(current.getNome()) || current.msgbox.get(i).getRemitente().getNome().equals(p.getNome())) {
                     System.out.println(">-------------------------------------------------------------------<");
-
+                    System.out.println(current.msgbox.get(i).getTexto());
+                    System.out.println("-sent by: " + current.msgbox.get(i).getRemitente().getNome() + " -at:" +  current.msgbox.get(i).getData() + " -read: " + hasBeenRead(i) + " -id:" + i);
                 }
             }
         } else {
