@@ -80,9 +80,10 @@ public class XeradorMenus {
         do {
             clr();
             System.out.println("-Current user:" + current.getNome());
-            System.out.println("-[1] State ->Current: " + current.getEstado());
-            System.out.println("-[2] Biography & Posts ->Current: " + current.getBiography());
-            System.out.println("-[3] FriendList");
+            System.out.println("-[1] State \t\t->Current: " + current.getEstado());
+            System.out.println("-[2] Biography & Posts \t->Current: " + current.getBiography());
+            System.out.println("-[3] FriendRequests \t->Pending: " + current.friendRequest.size());
+            System.out.println("-[4] FriendList");
             System.out.println("-[0] Close session");
 
             try {
@@ -103,6 +104,10 @@ public class XeradorMenus {
                     break;
 
                 case "3":
+                    friendRequestMenu();
+                    break;
+
+                case "4":
                     friendMenu();
                     break;
 
@@ -251,30 +256,22 @@ public class XeradorMenus {
         Scanner reads = new Scanner(System.in);
 
         do {
-            clr();
-            System.out.println("-You currently have " + current.friendRequest.size() + " pending friend requests");
-            System.out.println("[1] to send a friend request");
-            System.out.println("[2] to see friend requests");
-            System.out.println("[3] to see FriendList");
-            System.out.println("[4] to see chats");
-            System.out.println("[0] to exit menu");
+            printFriendList();
+
+            System.out.println(">What do you want to do?");
+            System.out.println("[1] to delete a friend");
+            System.out.println("[2] to enter a private chat");
+            System.out.println("[0] to go back");
 
             String input = reads.nextLine();
 
             switch (input) {
+
                 case "1":
-                    printFriendRequestMenu();
+                    deleteFriendMenu();
                     break;
 
                 case "2":
-                    printFriendRequestList();
-                    break;
-
-                case "3":
-                    printFriendList();
-                    break;
-
-                case "4":
                     chatMenu();
                     break;
 
@@ -288,6 +285,19 @@ public class XeradorMenus {
             }
 
         } while (!hasChanged);
+    }
+
+    private void deleteFriendMenu() {
+        Scanner reads = new Scanner(System.in);
+        System.out.println("Which user do you wish to delete from your friendlist? [name]");
+        String user = reads.nextLine();
+
+        if (current.friendListContainsName(user)) {
+            current.eliminarAmigo(data.buscarPerfil(user));
+        } else {
+            System.out.println(">That user is not your friend already.");
+        }
+
     }
 
     /**
@@ -377,14 +387,10 @@ public class XeradorMenus {
         if (current.getChatSizeOf(p) > 0) {
             for (int i = 0; i < current.msgbox.size() && i < p.msgbox.size(); i++) {
 
-                if (current.msgbox.get(i).getRemitente().getNome() != current.getNome()) {
-                    current.msgbox.get(i).setLido(true);                                                                            //If we are not the author, set to read.
-                }
-
                 if (p.msgbox.get(i).getRemitente().getNome().equals(current.getNome()) || current.msgbox.get(i).getRemitente().getNome().equals(p.getNome())) {
                     System.out.println(">-------------------------------------------------------------------<");
                     System.out.println(current.msgbox.get(i).getTexto());
-                    System.out.println("-sent by: " + current.msgbox.get(i).getRemitente().getNome() + " -at:" +  current.msgbox.get(i).getData() + " -read: " + hasBeenRead(i) + " -id:" + i);
+                    System.out.println("-sent by: " + current.msgbox.get(i).getRemitente().getNome() + " -at:" + current.msgbox.get(i).getData() + " -read: " + current.msgbox.get(i).isLido() + " -id:" + i);
                 }
             }
         } else {
@@ -392,15 +398,10 @@ public class XeradorMenus {
         }
     }
 
-    private String hasBeenRead(int i) {
-        String read;
-        return read = current.msgbox.get(i).isLido() ? "Yes" : "No";
-    }
-
     /**
      * This is a non-essential menu for managing selfs friend requests
      */
-    private void printFriendRequestMenu() {
+    private void printFriendRequestAddMenu() {
         Scanner reads = new Scanner(System.in);
         System.out.println(">Who do you want to add as a friend?");
         String name = reads.nextLine();
@@ -430,6 +431,38 @@ public class XeradorMenus {
         }
     }
 
+    private void friendRequestMenu() {
+        boolean hasExited = false;
+        Scanner reads = new Scanner(System.in);
+        do {
+            clr();
+            System.out.println("-You currently have " + current.friendRequest.size() + " pending friend requests");
+            System.out.println("[1] to send a friend request");
+            System.out.println("[2] to see friend requests");
+            System.out.println("[0] to go back");
+
+            String input = reads.nextLine();
+
+            switch (input) {
+                case "1":
+                    printFriendRequestAddMenu();
+                    break;
+
+                case "2":
+                    printFriendRequestList();
+                    break;
+
+                case "0":
+                    hasExited = true;
+                    break;
+
+                default:
+                    System.out.println("Input not valid, please try again.");
+                    break;
+            }
+        } while (!hasExited);
+    }
+
     /**
      * This method allows for visualizing selfs added friends as names
      */
@@ -438,7 +471,7 @@ public class XeradorMenus {
         System.out.println(">---------------------------------------------------------------<");
         if (current.friendList.size() > 0) {
             for (int cycle = 0; cycle < current.friendList.size(); cycle++) {
-                System.out.println(">[" + cycle + "] " + current.friendList.get(cycle).getNome());
+                System.out.println(">[" + cycle + "] " + current.friendList.get(cycle).getNome() + " -State: " + current.friendList.get(cycle).getEstado());
             }
         } else {
             System.out.println(">You still havent added any friends.");
@@ -611,7 +644,10 @@ public class XeradorMenus {
                 case "1":
                     System.out.println(">Which one? [num]");
                     input = reads.nextLine();
+                    int checkInput = Integer.parseInt(input);
+                    if(checkInput < dir.inbox.size()){                           //Only access post if it exists
                     enterPost(input);
+                    } else {System.out.println("This post does not exist!");}
                     break;
 
                 case "2":
@@ -633,11 +669,19 @@ public class XeradorMenus {
 
             System.out.println(">--------- Post number: [" + i + "]");
             System.out.println("\"" + dir.inbox.get(i).getTexto() + "\"");
-            System.out.println("@" + dir.inbox.get(i).getAutor().getNome() + " // at: " + dir.inbox.get(i).getData());
+            System.out.println("@" + author(i) + " // at: " + dir.inbox.get(i).getData());
             System.out.println(">Likes: " + dir.inbox.get(i).likes.size() + " >Comments: " + dir.inbox.get(i).comments.size());
             System.out.println("\n\n");
             //here will go comments and likes
         }
+    }
+
+    private String author(int i) {
+        String author;
+
+        author = dir.inbox.get(i).getAutor().getNome().equals(current.getNome()) ? "You" : dir.inbox.get(i).getAutor().getNome();
+
+        return author;
     }
 
     private void enterPost(String input) {
@@ -662,7 +706,11 @@ public class XeradorMenus {
 
         switch (inputer) {
             case "1":
-                facerMeGusta(dir.inbox.get(pos));
+                if (author(pos).equals("You")) {
+                    System.out.println(">You cant like your own post!");
+                } else {
+                    facerMeGusta(dir.inbox.get(pos));
+                }
                 break;
 
             case "2":

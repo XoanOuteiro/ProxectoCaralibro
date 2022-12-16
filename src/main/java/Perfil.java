@@ -144,6 +144,11 @@ public class Perfil {
         }
         return false;
     }
+    
+    public void eliminarAmigo(Perfil user){
+        this.friendList.remove(user);
+        user.friendList.remove(this);
+    }
 
     /**
      *
