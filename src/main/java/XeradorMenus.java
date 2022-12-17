@@ -219,15 +219,28 @@ public class XeradorMenus {
         do {
             System.out.println("-Insert your desired username, then press [Enter]");
             String usrName = reads.nextLine();
-            System.out.println("-Insert your desired password, then press [Enter]");
-            String psswd = reads.nextLine();
 
-            if (this.data.lookFor(usrName)) {
-                System.out.println(">That username is already taken please try another one.");
-            } else {
-                this.data.engadirPerfil(new Perfil(usrName, psswd));
-                done = true;
-            }
+            boolean correctRep = false;
+            String psswd = "";                                                  //Compilation init
+            do {
+                System.out.println("-Insert your desired password, then press [Enter]");
+                psswd = reads.nextLine();
+                System.out.println("-Confirm password");
+                String psswdCheck = reads.nextLine();
+
+                if (psswd.equals(psswdCheck)) {
+                    correctRep = true;
+                    if (this.data.lookFor(usrName)) {
+                        System.out.println(">That username is already taken please try another one.");
+                    } else {
+                        this.data.engadirPerfil(new Perfil(usrName, psswd));
+                        done = true;
+                    }
+                } else {
+                    System.out.println("-Password confirmation incorrect.");
+                }
+            } while (!correctRep);
+
         } while (!done);
     }
 
@@ -352,10 +365,10 @@ public class XeradorMenus {
     }
 
     /**
-     * 
+     *
      * @param pos
      * @return "Yes"/"No"
-     * 
+     *
      * Method to check if a message is read or not
      */
     private String hasBeenRead(int pos) {
