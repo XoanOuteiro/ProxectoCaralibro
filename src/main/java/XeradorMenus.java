@@ -22,7 +22,7 @@ public class XeradorMenus {
     //Essential menus
     public void mostrarMenuInicial() {
         doLogo();
-        System.out.println("--Welcome to CaraLibro v0.0.9");
+        System.out.println("--Welcome to CaraLibro v1.0.0");
         System.out.println("--To continue please press an option number and the [ENTER_KEY]");
 
         //Cycle loop is existed upon detecting a valid intput that swaps to another menu
@@ -598,7 +598,7 @@ public class XeradorMenus {
             System.out.println("[1] to check posts at this inbox");             //add notifs here?
             System.out.println("[2] to make a new post");
             System.out.println("[3] to change inbox directory");
-            System.out.println("[4] to go back");
+            System.out.println("[0] to go back");
 
             input = reads.nextLine();
 
@@ -632,7 +632,7 @@ public class XeradorMenus {
                     }
                     break;
 
-                case "4":
+                case "0":
                     hasChangedMenu = true;
                     break;
 
@@ -697,7 +697,7 @@ public class XeradorMenus {
             }
             System.out.println("What do you want to do?");
             System.out.println("[1] to enter a post");
-            System.out.println("[2] to go back");
+            System.out.println("[0] to go back");
 
             String input = reads.nextLine();
 
@@ -713,7 +713,7 @@ public class XeradorMenus {
                     }
                     break;
 
-                case "2":
+                case "0":
                     hasExited = true;
                     break;
 
