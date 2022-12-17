@@ -49,6 +49,7 @@ public class Perfil {
         this.friendList = new ArrayList<>();
         this.friendRequest = new ArrayList<>();
         this.inbox = new ArrayList();
+        this.msgbox = new ArrayList();
     }
 
     //Getters & Setters
@@ -145,6 +146,12 @@ public class Perfil {
         return false;
     }
     
+    /**
+     * 
+     * @param user 
+     * 
+     * Removes given user from friendlist
+     */
     public void eliminarAmigo(Perfil user){
         this.friendList.remove(user);
         user.friendList.remove(this);
@@ -161,55 +168,25 @@ public class Perfil {
     }
 
     /**
-     *
-     *
-     *
+     * Add a private message onto refered user 
      */
     public void engadirMensaxePrivada(Mensaxe m) {
         this.msgbox.add(m);
     }
 
-    public void sendMssg(Perfil reciever, Mensaxe m) {
-        reciever.msgbox.add(m);
-        this.engadirMensaxePrivada(m);
-    }
-
     /**
-     *
-     *
-     *
+     * Delete given message
      */
     public void eliminarMensaxe(Mensaxe m) {
         this.msgbox.remove(m);
     }
-
-    public void deleteBoth(Mensaxe m, Perfil p) {
-        eliminarMensaxe(m);
-        p.eliminarMensaxe(m);
-    }
-
+    
     /**
-     *
-     *
-     *
+     * Set all the messages of this user as read
      */
-    public Mensaxe getMssg(int post) {
-        return this.msgbox.get(post);
-    }
-
-    /**
-     *
-     */
-    public int getChatSizeOf(Perfil target) {
-        int mssgAmm = 0;
-        System.out.println("pepe1");
-        for (int i = 0; i < this.msgbox.size() && i < target.msgbox.size(); i++) {
-            if (this.msgbox.get(i).getRemitente().getNome().equals(target.getNome()) || target.msgbox.get(i).getRemitente().getNome().equals(this.nome)) {
-                mssgAmm++;
-            }
+    public void setAllAsRead(){
+        for(Mensaxe mensaxe : msgbox){
+            mensaxe.setLido(true);
         }
-
-        return mssgAmm;
-
     }
 }

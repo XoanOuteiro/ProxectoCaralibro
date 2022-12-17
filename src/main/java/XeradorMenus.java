@@ -84,6 +84,7 @@ public class XeradorMenus {
             System.out.println("-[2] Biography & Posts \t->Current: " + current.getBiography());
             System.out.println("-[3] FriendRequests \t->Pending: " + current.friendRequest.size());
             System.out.println("-[4] FriendList");
+            System.out.println("-[5] Chats");
             System.out.println("-[0] Close session");
 
             try {
@@ -109,6 +110,10 @@ public class XeradorMenus {
 
                 case "4":
                     friendMenu();
+                    break;
+
+                case "5":
+                    mainChatMenu();
                     break;
 
                 case "0":
@@ -247,7 +252,145 @@ public class XeradorMenus {
 
     }
 
-    //Secondary menus
+    /**
+     * Initial menu for chatting
+     */
+    private void mainChatMenu() {
+        Scanner reads = new Scanner(System.in);
+        boolean hasExited = false;
+
+        do {
+            clr();
+            mssgPrin();
+
+            System.out.println(">What do you want to do?");
+            System.out.println("[1] to mark a message as read");
+            System.out.println("[2] to mark all messages as read");
+            System.out.println("[3] to delete a message");
+            System.out.println("[4] to reply to a message");
+            System.out.println("[5] to send a message");
+            System.out.println("[0] to go back");
+
+            String input = reads.nextLine();
+
+            switch (input) {
+                case "1":
+                    System.out.println(">Which one? [id]");
+                    String inpt1 = reads.nextLine();
+                    int id1 = Integer.parseInt(inpt1);
+
+                    if (id1 <= current.msgbox.size()) {                         //Only if message exists, this is done on all cases here
+                        current.msgbox.get(id1).setLido(true);
+                    } else {
+                        System.out.println(">This message does not exist");
+                    }
+                    break;
+
+                case "2":
+                    if (current.msgbox.size() > 0) {
+                        current.setAllAsRead();
+                    } else {
+                        System.out.println(">No messages to set as read.");
+                    }
+                    break;
+
+                case "3":
+                    System.out.println(">Which one? [id]");
+                    String inpt3 = reads.nextLine();
+                    int id3 = Integer.parseInt(inpt3);
+
+                    if (id3 <= current.msgbox.size()) {
+                        current.eliminarMensaxe(current.msgbox.get(id3));
+                    } else {
+                        System.out.println(">This message does not exist");
+                    }
+                    break;
+
+                case "4":
+                    System.out.println(">What message do you want to reply to? [id]");
+                    String inpt4 = reads.nextLine();
+                    int id4 = Integer.parseInt(inpt4);
+
+                    if (id4 <= current.msgbox.size()) {
+                        System.out.println("Write your reply: ");
+                        String text4 = reads.nextLine();
+                        current.msgbox.get(id4).getRemitente().engadirMensaxePrivada(new Mensaxe("[In reply to your message]-> " + text4, current));
+                    } else {
+                        System.out.println(">This message does not exist");
+                    }
+                    break;
+
+                case "5":
+                    friendListMssgMenu();
+                    break;
+
+                case "0":
+                    hasExited = true;
+                    break;
+
+                default:
+                    System.out.println(">Input not valid, please try again.");
+            }
+
+        } while (!hasExited);
+
+    }
+
+    /**
+     * Method to show all of this users messages
+     */
+    private void mssgPrin() {
+        int pos = 0;
+        for (Mensaxe mensaxe : current.msgbox) {
+            System.out.println("->MSSG_ID= " + pos);
+            System.out.println("-@" + mensaxe.getRemitente().getNome() + " said: ");
+            System.out.println("\" " + mensaxe.getTexto() + " \"");
+            System.out.println("--at: " + mensaxe.getData() + " //--read: " + hasBeenRead(pos));
+            pos++;
+            System.out.println(">-----------------------------------------------------------------<");
+        }
+    }
+
+    /**
+     * 
+     * @param pos
+     * @return "Yes"/"No"
+     * 
+     * Method to check if a message is read or not
+     */
+    private String hasBeenRead(int pos) {
+        String read;
+
+        read = current.msgbox.get(pos).isLido() ? "Yes" : "No";
+
+        return read;
+    }
+
+    /**
+     * Menu for sending messages to friends
+     */
+    private void friendListMssgMenu() {
+        Scanner reads = new Scanner(System.in);
+
+        if (current.friendList.size() > 0) {
+            printFriendList();
+
+            System.out.println(">To which user? [id]");
+            String input = reads.nextLine();
+            int id = Integer.parseInt(input);
+
+            if (id <= current.friendList.size()) {
+                System.out.println(">Write your message:");
+                String texto = reads.nextLine();
+                current.friendList.get(id).engadirMensaxePrivada(new Mensaxe(texto, current));
+            } else {
+                System.out.println("That is not a valid option");
+            }
+        } else {
+            System.out.println(">You still havent added any friends.");
+        }
+    }
+
     /**
      * This is a utility non-essential menu for managing selfs friendList
      */
@@ -260,7 +403,7 @@ public class XeradorMenus {
 
             System.out.println(">What do you want to do?");
             System.out.println("[1] to delete a friend");
-            System.out.println("[2] to enter a private chat");
+            System.out.println("[2] to send a chat message");
             System.out.println("[0] to go back");
 
             String input = reads.nextLine();
@@ -272,7 +415,7 @@ public class XeradorMenus {
                     break;
 
                 case "2":
-                    chatMenu();
+                    friendListMssgMenu();
                     break;
 
                 case "0":
@@ -287,6 +430,9 @@ public class XeradorMenus {
         } while (!hasChanged);
     }
 
+    /**
+     * Menu for friend deletion
+     */
     private void deleteFriendMenu() {
         Scanner reads = new Scanner(System.in);
         System.out.println("Which user do you wish to delete from your friendlist? [name]");
@@ -298,104 +444,6 @@ public class XeradorMenus {
             System.out.println(">That user is not your friend already.");
         }
 
-    }
-
-    /**
-     *
-     *
-     *
-     */
-    private void chatMenu() {
-        Scanner reads = new Scanner(System.in);
-        boolean hasExited = false;
-
-        do {
-            clr();
-            printFriendList();
-            System.out.println("What do you want to do?");
-            System.out.println("[1] to enter a chat");
-            System.out.println("[0] to go back");
-            String input = reads.nextLine();
-            switch (input) {
-                case "1":
-                    System.out.println(">Which friends chat would you like to enter? [name]");
-                    String input2 = reads.nextLine();
-                    if (data.lookFor(input2)) {
-                        if (current.friendListContainsName(input2)) {
-                            inChat(data.buscarPerfil(input2));
-                        } else {
-                            System.out.println(">That user has not added you as a friend");
-                        }
-                    } else {
-                        System.out.println(">That user does not exist");
-                    }
-                    break;
-
-                case "0":
-                    hasExited = true;
-                    break;
-
-                default:
-                    System.out.println(">Input not valid, please try again.");
-            }
-
-        } while (!hasExited);
-    }
-
-    /**
-     *
-     */
-    private void inChat(Perfil p) {
-        Scanner reads = new Scanner(System.in);
-        boolean hasExited = false;
-        do {
-            System.out.println(current.getChatSizeOf(p));
-            printMessages(p);
-            System.out.println(">------------------------------------------<");
-            System.out.println("[1]Write a new message");
-            System.out.println("[2]Remove a message");
-            System.out.println("[0] to exit the menu");
-            String input = reads.nextLine();
-            switch (input) {
-
-                case "1":
-                    System.out.println(">Write your message: ");
-                    String content = reads.nextLine();
-                    current.sendMssg(p, new Mensaxe(content, current));
-                    break;
-
-                case "2":
-                    System.out.println(">Which one? [0-n]");
-                    String input2 = reads.nextLine();
-                    int input3 = Integer.parseInt(input2);
-                    current.deleteBoth(current.getMssg(input3), p);
-                    break;
-
-                case "0":
-                    hasExited = true;
-                    break;
-
-                default:
-                    System.out.println(">Input not valid.");
-                    break;
-
-            }
-        } while (!hasExited);
-    }
-
-    private void printMessages(Perfil p) {
-        if (current.getChatSizeOf(p) > 0) {
-            for (int i = 0; i < current.msgbox.size() && i < p.msgbox.size(); i++) {
-
-                if (p.msgbox.get(i).getRemitente().getNome().equals(current.getNome()) || current.msgbox.get(i).getRemitente().getNome().equals(p.getNome())) {
-                    System.out.println(">-------------------------------------------------------------------<");
-                    System.out.println(current.msgbox.get(i).getTexto());
-                    System.out.println("-sent by: " + current.msgbox.get(i).getRemitente().getNome() + " -at:" + current.msgbox.get(i).getData() + " -read: " + current.msgbox.get(i).isLido() + " -id:" + i);
-                }
-            }
-        } else {
-            System.out.println(">No messages yet");
-        }
     }
 
     /**
@@ -645,9 +693,11 @@ public class XeradorMenus {
                     System.out.println(">Which one? [num]");
                     input = reads.nextLine();
                     int checkInput = Integer.parseInt(input);
-                    if(checkInput < dir.inbox.size()){                           //Only access post if it exists
-                    enterPost(input);
-                    } else {System.out.println("This post does not exist!");}
+                    if (checkInput < dir.inbox.size()) {                           //Only access post if it exists
+                        enterPost(input);
+                    } else {
+                        System.out.println("This post does not exist!");
+                    }
                     break;
 
                 case "2":
