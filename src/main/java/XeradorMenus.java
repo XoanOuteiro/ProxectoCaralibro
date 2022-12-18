@@ -82,7 +82,7 @@ public class XeradorMenus {
             System.out.println("-Current user:" + current.getNome());
             System.out.println("-[1] State \t\t->Current: " + current.getEstado());
             System.out.println("-[2] Biography & Posts \t->Current: " + current.getBiography());
-            System.out.println("-[3] FriendRequests \t->Pending: " + current.friendRequest.size());
+            System.out.println("-[3] FriendRequests \t->Pending: " + current.getFriendRequest().size());
             System.out.println("-[4] FriendList");
             System.out.println("-[5] Chats \t\t->Unread: " + current.getUnreadMssgs());
             System.out.println("-[0] Close session");
@@ -292,15 +292,15 @@ public class XeradorMenus {
                     String inpt1 = reads.nextLine();
                     int id1 = Integer.parseInt(inpt1);
 
-                    if (id1 <= current.msgbox.size()) {                         //Only if message exists, this is done on all cases here
-                        current.msgbox.get(id1).setLido(true);
+                    if (id1 <= current.getMsgbox().size()) {                         //Only if message exists, this is done on all cases here
+                        current.getMsgbox().get(id1).setLido(true);
                     } else {
                         System.out.println(">This message does not exist");
                     }
                     break;
 
                 case "2":
-                    if (current.msgbox.size() > 0) {
+                    if (current.getMsgbox().size() > 0) {
                         current.setAllAsRead();
                     } else {
                         System.out.println(">No messages to set as read.");
@@ -312,8 +312,8 @@ public class XeradorMenus {
                     String inpt3 = reads.nextLine();
                     int id3 = Integer.parseInt(inpt3);
 
-                    if (id3 <= current.msgbox.size()) {
-                        current.eliminarMensaxe(current.msgbox.get(id3));
+                    if (id3 <= current.getMsgbox().size()) {
+                        current.eliminarMensaxe(current.getMsgbox().get(id3));
                     } else {
                         System.out.println(">This message does not exist");
                     }
@@ -324,12 +324,12 @@ public class XeradorMenus {
                     String inpt4 = reads.nextLine();
                     int id4 = Integer.parseInt(inpt4);
 
-                    if (current.friendList.contains(current.msgbox.get(id4).getRemitente())) {              //In case of friend deletion after mmsg is sent
+                    if (current.getFriendList().contains(current.getMsgbox().get(id4).getRemitente())) {              //In case of friend deletion after mmsg is sent
 
-                        if (id4 <= current.msgbox.size()) {
+                        if (id4 <= current.getMsgbox().size()) {
                             System.out.println("Write your reply: ");
                             String text4 = reads.nextLine();
-                            current.msgbox.get(id4).getRemitente().engadirMensaxePrivada(new Mensaxe("[In reply to your message]-> " + text4, current));
+                            current.getMsgbox().get(id4).getRemitente().engadirMensaxePrivada(new Mensaxe("[In reply to your message]-> " + text4, current));
                         } else {
                             System.out.println(">This message does not exist");
                         }
@@ -359,7 +359,7 @@ public class XeradorMenus {
      */
     private void mssgPrin() {
         int pos = 0;
-        for (Mensaxe mensaxe : current.msgbox) {
+        for (Mensaxe mensaxe : current.getMsgbox()) {
             System.out.println("->MSSG_ID= " + pos);
             System.out.println("-@" + mensaxe.getRemitente().getNome() + " said: ");
             System.out.println("\" " + mensaxe.getTexto() + " \"");
@@ -379,7 +379,7 @@ public class XeradorMenus {
     private String hasBeenRead(int pos) {
         String read;
 
-        read = current.msgbox.get(pos).isLido() ? "Yes" : "No";
+        read = current.getMsgbox().get(pos).isLido() ? "Yes" : "No";
 
         return read;
     }
@@ -390,17 +390,17 @@ public class XeradorMenus {
     private void friendListMssgMenu() {
         Scanner reads = new Scanner(System.in);
 
-        if (current.friendList.size() > 0) {
+        if (current.getFriendList().size() > 0) {
             printFriendList();
 
             System.out.println(">To which user? [id]");
             String input = reads.nextLine();
             int id = Integer.parseInt(input);
 
-            if (id <= current.friendList.size()) {
+            if (id <= current.getFriendList().size()) {
                 System.out.println(">Write your message:");
                 String texto = reads.nextLine();
-                current.friendList.get(id).engadirMensaxePrivada(new Mensaxe(texto, current));
+                current.getFriendList().get(id).engadirMensaxePrivada(new Mensaxe(texto, current));
             } else {
                 System.out.println("That is not a valid option");
             }
@@ -481,7 +481,7 @@ public class XeradorMenus {
 
                 System.out.println(">You cant add yourself as a friend.");
 
-            } else if (current.friendRequest.contains(name) || data.buscarPerfil(name).friendRequest.contains(current.getNome())) {
+            } else if (current.getFriendRequest().contains(name) || data.buscarPerfil(name).getFriendRequest().contains(current.getNome())) {
 
                 System.out.println(">You/This user already have/has a pending friend request from you/that user.");
 
@@ -502,7 +502,7 @@ public class XeradorMenus {
         Scanner reads = new Scanner(System.in);
         do {
             clr();
-            System.out.println("-You currently have " + current.friendRequest.size() + " pending friend requests");
+            System.out.println("-You currently have " + current.getFriendRequest().size() + " pending friend requests");
             System.out.println("[1] to send a friend request");
             System.out.println("[2] to see friend requests");
             System.out.println("[3] to see friends of friends");
@@ -539,11 +539,11 @@ public class XeradorMenus {
      */
     private void friendSuggestions() {
         clr();
-        if (current.friendList.size() > 0) {                                        //If current has friends
-            for (Perfil friend : current.friendList) {                              //For each friend
-                if (friend.friendList.size() > 0) {                                 //If friend has friends
+        if (current.getFriendList().size() > 0) {                                        //If current has friends
+            for (Perfil friend : current.getFriendList()) {                              //For each friend
+                if (friend.getFriendList().size() > 0) {                                 //If friend has friends
                     System.out.println("---> " + friend.getNome() + " friends:");
-                    for (Perfil friendOfFriend : friend.friendList) {               //For each friend of friend
+                    for (Perfil friendOfFriend : friend.getFriendList()) {               //For each friend of friend
                         if (!friendOfFriend.getNome().equals(current.getNome())) {  //If friendOfFriendisnt current
                             System.out.println("-> " + friendOfFriend.getNome());   //Show -> + name
                         }
@@ -561,9 +561,9 @@ public class XeradorMenus {
     private void printFriendList() {
         Scanner reads = new Scanner(System.in);
         System.out.println(">---------------------------------------------------------------<");
-        if (current.friendList.size() > 0) {
-            for (int cycle = 0; cycle < current.friendList.size(); cycle++) {
-                System.out.println(">[" + cycle + "] " + current.friendList.get(cycle).getNome() + " -State: " + current.friendList.get(cycle).getEstado());
+        if (current.getFriendList().size() > 0) {
+            for (int cycle = 0; cycle < current.getFriendList().size(); cycle++) {
+                System.out.println(">[" + cycle + "] " + current.getFriendList().get(cycle).getNome() + " -State: " + current.getFriendList().get(cycle).getEstado());
             }
         } else {
             System.out.println(">You still havent added any friends.");
@@ -578,17 +578,17 @@ public class XeradorMenus {
      */
     private void printFriendRequestList() {
         Scanner reads = new Scanner(System.in);
-        if (current.friendRequest.size() > 0) {
+        if (current.getFriendRequest().size() > 0) {
 
-            for (int cycler = 0; cycler < current.friendRequest.size(); cycler++) {
-                System.out.println(">[" + cycler + "] " + current.friendRequest.get(cycler) + " wants to be your friend");
+            for (int cycler = 0; cycler < current.getFriendRequest().size(); cycler++) {
+                System.out.println(">[" + cycler + "] " + current.getFriendRequest().get(cycler) + " wants to be your friend");
             }
 
             System.out.println(">Write the name of the user you wish to [add/reject].");
 
             String input = reads.nextLine();
 
-            if (current.friendRequest.contains(input)) {
+            if (current.getFriendRequest().contains(input)) {
 
                 System.out.println(">Write [1] to accept or [2] to reject.");
                 String accrej = reads.nextLine();
@@ -644,7 +644,7 @@ public class XeradorMenus {
                     break;
 
                 case "3":
-                    if (current.friendList.size() == 0) {
+                    if (current.getFriendList().size() == 0) {
                         System.out.println(">Looks like you still havent added any friends :(");
                     } else {
                         System.out.println(">To which one of your friends inbox would you like to go?");
@@ -696,7 +696,7 @@ public class XeradorMenus {
                 switch (sure) {
 
                     case "1":
-                        dir.inbox.add(new Publicacion(current, post));
+                        dir.getInbox().add(new Publicacion(current, post));
                         hasExited = true;
                         newPost = true;
                         break;
@@ -721,7 +721,7 @@ public class XeradorMenus {
         Scanner reads = new Scanner(System.in);
         System.out.println("This is " + dir.getNome() + "'s wall of posts.");
         do {
-            if (dir.inbox.size() > 0) {
+            if (dir.getInbox().size() > 0) {
                 showPosts();
             } else {
                 System.out.println(">No posts here yet");
@@ -737,7 +737,7 @@ public class XeradorMenus {
                     System.out.println(">Which one? [num]");
                     input = reads.nextLine();
                     int checkInput = Integer.parseInt(input);
-                    if (checkInput < dir.inbox.size()) {                           //Only access post if it exists
+                    if (checkInput < dir.getInbox().size()) {                           //Only access post if it exists
                         enterPost(input);
                     } else {
                         System.out.println("This post does not exist!");
@@ -759,12 +759,12 @@ public class XeradorMenus {
     private void showPosts() {
         clr();
 
-        for (int i = 0; i < dir.inbox.size(); i++) {
+        for (int i = 0; i < dir.getInbox().size(); i++) {
 
             System.out.println(">--------- Post number: [" + i + "]");
-            System.out.println("\"" + dir.inbox.get(i).getTexto() + "\"");
-            System.out.println("@" + author(i) + " // at: " + dir.inbox.get(i).getData());
-            System.out.println(">Likes: " + dir.inbox.get(i).getLikes().size() + " >Comments: " + dir.inbox.get(i).getComments().size());
+            System.out.println("\"" + dir.getInbox().get(i).getTexto() + "\"");
+            System.out.println("@" + author(i) + " // at: " + dir.getInbox().get(i).getData());
+            System.out.println(">Likes: " + dir.getInbox().get(i).getLikes().size() + " >Comments: " + dir.getInbox().get(i).getComments().size());
             System.out.println("\n\n");
             //here will go comments and likes
         }
@@ -773,7 +773,7 @@ public class XeradorMenus {
     private String author(int i) {
         String author;
 
-        author = dir.inbox.get(i).getAutor().getNome().equals(current.getNome()) ? "You" : dir.inbox.get(i).getAutor().getNome();
+        author = dir.getInbox().get(i).getAutor().getNome().equals(current.getNome()) ? "You" : dir.getInbox().get(i).getAutor().getNome();
 
         return author;
     }
@@ -783,9 +783,9 @@ public class XeradorMenus {
         Scanner reads = new Scanner(System.in);
 
         clr();
-        System.out.println(">--------- This is " + dir.inbox.get(pos).getAutor().getNome() + "'s post");
+        System.out.println(">--------- This is " + dir.getInbox().get(pos).getAutor().getNome() + "'s post");
         System.out.println("->Local post ID: " + pos);
-        System.out.println("- " + dir.inbox.get(pos).getTexto() + " -");
+        System.out.println("- " + dir.getInbox().get(pos).getTexto() + " -");
         System.out.println("->>Liked by: ");
         showThisLikes(pos);
         System.out.println("->>Comments: ");
@@ -803,12 +803,12 @@ public class XeradorMenus {
                 if (author(pos).equals("You")) {
                     System.out.println(">You cant like your own post!");
                 } else {
-                    facerMeGusta(dir.inbox.get(pos));
+                    facerMeGusta(dir.getInbox().get(pos));
                 }
                 break;
 
             case "2":
-                escribirComentario(dir.inbox.get(pos), current);
+                escribirComentario(dir.getInbox().get(pos), current);
                 break;
 
             default:
@@ -855,28 +855,28 @@ public class XeradorMenus {
     }
 
     private void showThisLikes(int pos) {
-        if (dir.inbox.get(pos).getLikes().size() == 0) {
+        if (dir.getInbox().get(pos).getLikes().size() == 0) {
 
             System.out.println("-Looks like no one has liked this post yet :c -");
 
         } else {
 
-            for (int cnt = 0; cnt < dir.inbox.get(pos).getLikes().size(); cnt++) {
-                System.out.println(dir.inbox.get(pos).getLikes().get(cnt).getNome());
+            for (int cnt = 0; cnt < dir.getInbox().get(pos).getLikes().size(); cnt++) {
+                System.out.println(dir.getInbox().get(pos).getLikes().get(cnt).getNome());
             }
         }
     }
 
     private void showThisComments(int pos) {
-        if (dir.inbox.get(pos).getComments().size() == 0) {
+        if (dir.getInbox().get(pos).getComments().size() == 0) {
 
             System.out.println("-Looks like no one has commented on this post yet :c -");
 
         } else {
 
-            for (int cnt = 0; cnt < dir.inbox.get(pos).getComments().size(); cnt++) {
-                System.out.println(dir.inbox.get(pos).getComments().get(cnt).getAutor().getNome() + ": ");
-                System.out.println("\"" + dir.inbox.get(pos).getComments().get(cnt).getTexto() + "\"");
+            for (int cnt = 0; cnt < dir.getInbox().get(pos).getComments().size(); cnt++) {
+                System.out.println(dir.getInbox().get(pos).getComments().get(cnt).getAutor().getNome() + ": ");
+                System.out.println("\"" + dir.getInbox().get(pos).getComments().get(cnt).getTexto() + "\"");
                 System.out.println(">-------------------------------------------------------------------<");
             }
         }
@@ -1011,19 +1011,19 @@ public class XeradorMenus {
         data.engadirPerfil(new Perfil("poster1", "poster1"));
         data.engadirPerfil(new Perfil("poster2", "poster2"));
 
-        data.buscarPerfil("poster1").friendList.add(data.buscarPerfil("poster2"));
-        data.buscarPerfil("poster2").friendList.add(data.buscarPerfil("poster1"));
+        data.buscarPerfil("poster1").getFriendList().add(data.buscarPerfil("poster2"));
+        data.buscarPerfil("poster2").getFriendList().add(data.buscarPerfil("poster1"));
 
-        data.buscarPerfil("poster1").inbox.add(new Publicacion(data.buscarPerfil("poster1"), "blablabla1-1"));
-        data.buscarPerfil("poster1").inbox.add(new Publicacion(data.buscarPerfil("poster1"), "blablabla2-1"));
-        data.buscarPerfil("poster1").inbox.add(new Publicacion(data.buscarPerfil("poster2"), "blablabla1-2"));
-        data.buscarPerfil("poster2").inbox.add(new Publicacion(data.buscarPerfil("poster1"), "blablabla3"));
-        data.buscarPerfil("poster2").inbox.add(new Publicacion(data.buscarPerfil("poster2"), "blablabla4"));
+        data.buscarPerfil("poster1").getInbox().add(new Publicacion(data.buscarPerfil("poster1"), "blablabla1-1"));
+        data.buscarPerfil("poster1").getInbox().add(new Publicacion(data.buscarPerfil("poster1"), "blablabla2-1"));
+        data.buscarPerfil("poster1").getInbox().add(new Publicacion(data.buscarPerfil("poster2"), "blablabla1-2"));
+        data.buscarPerfil("poster2").getInbox().add(new Publicacion(data.buscarPerfil("poster1"), "blablabla3"));
+        data.buscarPerfil("poster2").getInbox().add(new Publicacion(data.buscarPerfil("poster2"), "blablabla4"));
 
-        data.buscarPerfil("poster2").inbox.get(0).getComments().add(new Comentario(data.buscarPerfil("poster1"), "Comentario numero 1"));
-        data.buscarPerfil("poster2").inbox.get(0).getComments().add(new Comentario(data.buscarPerfil("poster1"), "Comentario numero 2"));
-        data.buscarPerfil("poster2").inbox.get(0).getComments().add(new Comentario(data.buscarPerfil("poster1"), "Comentario numero 3"));
-        data.buscarPerfil("poster2").inbox.get(0).getComments().add(new Comentario(data.buscarPerfil("poster2"), "Comentario numero 1"));
+        data.buscarPerfil("poster2").getInbox().get(0).getComments().add(new Comentario(data.buscarPerfil("poster1"), "Comentario numero 1"));
+        data.buscarPerfil("poster2").getInbox().get(0).getComments().add(new Comentario(data.buscarPerfil("poster1"), "Comentario numero 2"));
+        data.buscarPerfil("poster2").getInbox().get(0).getComments().add(new Comentario(data.buscarPerfil("poster1"), "Comentario numero 3"));
+        data.buscarPerfil("poster2").getInbox().get(0).getComments().add(new Comentario(data.buscarPerfil("poster2"), "Comentario numero 1"));
     }
 
     private void loadFriendtest() {

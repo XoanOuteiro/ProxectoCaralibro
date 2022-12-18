@@ -8,16 +8,16 @@ import java.util.ArrayList;
 public class Perfil {
 
     //Atributes
-    String nome;
-    String contrasinal;
-    String estado;
+    private String nome;
+    private String contrasinal;
+    private String estado;
 
     //Non-essential atributes
-    String biography;
-    ArrayList<Perfil> friendList;
-    ArrayList<String> friendRequest;
-    ArrayList<Publicacion> inbox;
-    ArrayList<Mensaxe> msgbox;
+    private String biography;
+    private ArrayList<Perfil> friendList;
+    private ArrayList<String> friendRequest;
+    private ArrayList<Publicacion> inbox;
+    private ArrayList<Mensaxe> msgbox;
 
     //Data
     CaraLibroBD data;
@@ -85,6 +85,26 @@ public class Perfil {
         return biography;
     }
 
+    public ArrayList<Perfil> getFriendList() {
+        return friendList;
+    }
+
+    public ArrayList<String> getFriendRequest() {
+        return friendRequest;
+    }
+
+    public ArrayList<Publicacion> getInbox() {
+        return inbox;
+    }
+
+    public ArrayList<Mensaxe> getMsgbox() {
+        return msgbox;
+    }
+
+    public CaraLibroBD getData() {
+        return data;
+    }
+    
     //Utility methods
     /**
      *
