@@ -7,11 +7,11 @@ import java.util.ArrayList;
  */
 public class Publicacion {
     //Atributes
-    LocalDate data;
-    String texto;
-    Perfil autor;
-    ArrayList <Perfil> likes;
-    ArrayList <Comentario> comments;
+    private LocalDate data;
+    private String texto;
+    private Perfil autor;
+    private ArrayList <Perfil> likes;
+    private ArrayList <Comentario> comments;
     
     //Construction methods
     /**
@@ -57,10 +57,14 @@ public class Publicacion {
         this.autor = autor;
     } 
     
+    public ArrayList<Perfil> getLikes() {
+        return likes;
+    }
+
+    public ArrayList<Comentario> getComments() {
+        return comments;
+    }
+    
     //Utility methods
-
-    
-
-    
-    
+   
 }

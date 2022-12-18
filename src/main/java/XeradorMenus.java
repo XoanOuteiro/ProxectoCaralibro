@@ -764,7 +764,7 @@ public class XeradorMenus {
             System.out.println(">--------- Post number: [" + i + "]");
             System.out.println("\"" + dir.inbox.get(i).getTexto() + "\"");
             System.out.println("@" + author(i) + " // at: " + dir.inbox.get(i).getData());
-            System.out.println(">Likes: " + dir.inbox.get(i).likes.size() + " >Comments: " + dir.inbox.get(i).comments.size());
+            System.out.println(">Likes: " + dir.inbox.get(i).getLikes().size() + " >Comments: " + dir.inbox.get(i).getComments().size());
             System.out.println("\n\n");
             //here will go comments and likes
         }
@@ -783,7 +783,7 @@ public class XeradorMenus {
         Scanner reads = new Scanner(System.in);
 
         clr();
-        System.out.println(">--------- This is " + dir.inbox.get(pos).autor.getNome() + "'s post");
+        System.out.println(">--------- This is " + dir.inbox.get(pos).getAutor().getNome() + "'s post");
         System.out.println("->Local post ID: " + pos);
         System.out.println("- " + dir.inbox.get(pos).getTexto() + " -");
         System.out.println("->>Liked by: ");
@@ -818,9 +818,9 @@ public class XeradorMenus {
     }
 
     private void facerMeGusta(Publicacion publ) {
-        if (!publ.likes.contains(current)) {
+        if (!publ.getLikes().contains(current)) {
 
-            publ.likes.add(current);
+            publ.getLikes().add(current);
 
         } else {
 
@@ -846,7 +846,7 @@ public class XeradorMenus {
             switch (input) {
                 case "1":
                     hasExited = true;
-                    pbl.comments.add(new Comentario(p, text));
+                    pbl.getComments().add(new Comentario(p, text));
                     break;
             }
 
@@ -855,28 +855,28 @@ public class XeradorMenus {
     }
 
     private void showThisLikes(int pos) {
-        if (dir.inbox.get(pos).likes.size() == 0) {
+        if (dir.inbox.get(pos).getLikes().size() == 0) {
 
             System.out.println("-Looks like no one has liked this post yet :c -");
 
         } else {
 
-            for (int cnt = 0; cnt < dir.inbox.get(pos).likes.size(); cnt++) {
-                System.out.println(dir.inbox.get(pos).likes.get(cnt).getNome());
+            for (int cnt = 0; cnt < dir.inbox.get(pos).getLikes().size(); cnt++) {
+                System.out.println(dir.inbox.get(pos).getLikes().get(cnt).getNome());
             }
         }
     }
 
     private void showThisComments(int pos) {
-        if (dir.inbox.get(pos).comments.size() == 0) {
+        if (dir.inbox.get(pos).getComments().size() == 0) {
 
             System.out.println("-Looks like no one has commented on this post yet :c -");
 
         } else {
 
-            for (int cnt = 0; cnt < dir.inbox.get(pos).comments.size(); cnt++) {
-                System.out.println(dir.inbox.get(pos).comments.get(cnt).autor.getNome() + ": ");
-                System.out.println("\"" + dir.inbox.get(pos).comments.get(cnt).getTexto() + "\"");
+            for (int cnt = 0; cnt < dir.inbox.get(pos).getComments().size(); cnt++) {
+                System.out.println(dir.inbox.get(pos).getComments().get(cnt).autor.getNome() + ": ");
+                System.out.println("\"" + dir.inbox.get(pos).getComments().get(cnt).getTexto() + "\"");
                 System.out.println(">-------------------------------------------------------------------<");
             }
         }
@@ -1020,10 +1020,10 @@ public class XeradorMenus {
         data.buscarPerfil("poster2").inbox.add(new Publicacion(data.buscarPerfil("poster1"), "blablabla3"));
         data.buscarPerfil("poster2").inbox.add(new Publicacion(data.buscarPerfil("poster2"), "blablabla4"));
 
-        data.buscarPerfil("poster2").inbox.get(0).comments.add(new Comentario(data.buscarPerfil("poster1"), "Comentario numero 1"));
-        data.buscarPerfil("poster2").inbox.get(0).comments.add(new Comentario(data.buscarPerfil("poster1"), "Comentario numero 2"));
-        data.buscarPerfil("poster2").inbox.get(0).comments.add(new Comentario(data.buscarPerfil("poster1"), "Comentario numero 3"));
-        data.buscarPerfil("poster2").inbox.get(0).comments.add(new Comentario(data.buscarPerfil("poster2"), "Comentario numero 1"));
+        data.buscarPerfil("poster2").inbox.get(0).getComments().add(new Comentario(data.buscarPerfil("poster1"), "Comentario numero 1"));
+        data.buscarPerfil("poster2").inbox.get(0).getComments().add(new Comentario(data.buscarPerfil("poster1"), "Comentario numero 2"));
+        data.buscarPerfil("poster2").inbox.get(0).getComments().add(new Comentario(data.buscarPerfil("poster1"), "Comentario numero 3"));
+        data.buscarPerfil("poster2").inbox.get(0).getComments().add(new Comentario(data.buscarPerfil("poster2"), "Comentario numero 1"));
     }
 
     private void loadFriendtest() {
