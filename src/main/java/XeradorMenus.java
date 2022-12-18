@@ -875,7 +875,7 @@ public class XeradorMenus {
         } else {
 
             for (int cnt = 0; cnt < dir.inbox.get(pos).getComments().size(); cnt++) {
-                System.out.println(dir.inbox.get(pos).getComments().get(cnt).autor.getNome() + ": ");
+                System.out.println(dir.inbox.get(pos).getComments().get(cnt).getAutor().getNome() + ": ");
                 System.out.println("\"" + dir.inbox.get(pos).getComments().get(cnt).getTexto() + "\"");
                 System.out.println(">-------------------------------------------------------------------<");
             }

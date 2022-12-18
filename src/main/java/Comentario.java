@@ -7,9 +7,9 @@ import java.time.LocalDate;
  */
 public class Comentario {
     //Atributes
-    String texto;
-    LocalDate data;
-    Perfil autor;
+    private String texto;
+    private LocalDate data;
+    private Perfil autor;
     
     //Construction methods
     public Comentario(Perfil autor,String texto){
