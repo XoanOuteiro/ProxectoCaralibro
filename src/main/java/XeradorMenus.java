@@ -505,6 +505,7 @@ public class XeradorMenus {
             System.out.println("-You currently have " + current.friendRequest.size() + " pending friend requests");
             System.out.println("[1] to send a friend request");
             System.out.println("[2] to see friend requests");
+            System.out.println("[3] to see friends of friends");
             System.out.println("[0] to go back");
 
             String input = reads.nextLine();
@@ -517,6 +518,10 @@ public class XeradorMenus {
                 case "2":
                     printFriendRequestList();
                     break;
+                    
+                case "3":
+                    friendSuggestions();
+                    break;
 
                 case "0":
                     hasExited = true;
@@ -527,6 +532,27 @@ public class XeradorMenus {
                     break;
             }
         } while (!hasExited);
+    }
+    
+    /**
+     * For each friend prints a their friendlist
+     */
+    private void friendSuggestions() {
+        clr();
+        if (current.friendList.size() > 0) {                                        //If current has friends
+            for (Perfil friend : current.friendList) {                              //For each friend
+                if (friend.friendList.size() > 0) {                                 //If friend has friends
+                    System.out.println("---> " + friend.getNome() + " friends:");
+                    for (Perfil friendOfFriend : friend.friendList) {               //For each friend of friend
+                        if (!friendOfFriend.getNome().equals(current.getNome())) {  //If friendOfFriendisnt current
+                            System.out.println("-> " + friendOfFriend.getNome());   //Show -> + name
+                        }
+                    }
+                }
+            }
+        } else {
+            System.out.println(">You still havent added any friends.");
+        }
     }
 
     /**
