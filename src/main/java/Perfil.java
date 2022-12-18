@@ -189,4 +189,13 @@ public class Perfil {
             mensaxe.setLido(true);
         }
     }
+    
+    public int getUnreadMssgs(){
+        int c = 0;
+        for(Mensaxe mensaxe : this.msgbox){
+            if(!mensaxe.isLido()){ c++; }
+        }
+        
+        return c;
+    }
 }

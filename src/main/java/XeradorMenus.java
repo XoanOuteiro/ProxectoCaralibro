@@ -84,7 +84,7 @@ public class XeradorMenus {
             System.out.println("-[2] Biography & Posts \t->Current: " + current.getBiography());
             System.out.println("-[3] FriendRequests \t->Pending: " + current.friendRequest.size());
             System.out.println("-[4] FriendList");
-            System.out.println("-[5] Chats");
+            System.out.println("-[5] Chats \t\t->Unread: " + current.getUnreadMssgs());
             System.out.println("-[0] Close session");
 
             try {
@@ -324,12 +324,17 @@ public class XeradorMenus {
                     String inpt4 = reads.nextLine();
                     int id4 = Integer.parseInt(inpt4);
 
-                    if (id4 <= current.msgbox.size()) {
-                        System.out.println("Write your reply: ");
-                        String text4 = reads.nextLine();
-                        current.msgbox.get(id4).getRemitente().engadirMensaxePrivada(new Mensaxe("[In reply to your message]-> " + text4, current));
+                    if (current.friendList.contains(current.msgbox.get(id4).getRemitente())) {              //In case of friend deletion after mmsg is sent
+
+                        if (id4 <= current.msgbox.size()) {
+                            System.out.println("Write your reply: ");
+                            String text4 = reads.nextLine();
+                            current.msgbox.get(id4).getRemitente().engadirMensaxePrivada(new Mensaxe("[In reply to your message]-> " + text4, current));
+                        } else {
+                            System.out.println(">This message does not exist");
+                        }
                     } else {
-                        System.out.println(">This message does not exist");
+                        System.out.println(">That user is not your friend anymore");
                     }
                     break;
 
