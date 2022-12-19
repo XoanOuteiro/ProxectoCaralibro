@@ -50,7 +50,7 @@ public class XeradorMenus {
                     //Once we succesfully have a session we go to MainMenu
                     if (current != null) {                                         //At 26/12 this condition crashes or isnt met, fixed 14:41 
                         dir = current;
-                        mostrarMenuPrincipal();
+                        mostrarMenuPrincipal(current);
                     }
                     break;
 
@@ -70,7 +70,7 @@ public class XeradorMenus {
         } while (!hasChangedMenu);
     }
 
-    private void mostrarMenuPrincipal() {
+    public void mostrarMenuPrincipal(Perfil current) {
         //Method atributes
         boolean hasChangedMenu = false;
         Scanner reads = new Scanner(System.in);
@@ -97,11 +97,11 @@ public class XeradorMenus {
             switch (input) {
 
                 case "1":             //Consider the option to call a different method in each case containing this logic (done 02/12/22)
-                    stateCase();
+                    cambiarEstado(current);
                     break;
 
                 case "2":
-                    biographyCase();
+                    mostrarBiografia(current);
                     break;
 
                 case "3":
@@ -113,7 +113,7 @@ public class XeradorMenus {
                     break;
 
                 case "5":
-                    mainChatMenu();
+                    mainChatMenu(current);
                     break;
 
                 case "0":
@@ -129,14 +129,14 @@ public class XeradorMenus {
         } while (!hasChangedMenu);
     }
 
-    private void pecharSesion() {
+    public void pecharSesion() {
         current = null;
     }
 
     /**
      * This is the menu for selfs state
      */
-    private void stateCase() {
+    private void cambiarEstado(Perfil current) {
         Scanner reads = new Scanner(System.in);
         if (current.getEstado() == null) {
 
@@ -173,7 +173,7 @@ public class XeradorMenus {
     /**
      * This is the menu for selfs biography
      */
-    private void biographyCase() {
+    public void mostrarBiografia(Perfil current) {
         Scanner reads = new Scanner(System.in);
         if (current.getBiography() == null) {
 
@@ -268,13 +268,13 @@ public class XeradorMenus {
     /**
      * Initial menu for chatting
      */
-    private void mainChatMenu() {
+    private void mainChatMenu(Perfil current) {
         Scanner reads = new Scanner(System.in);
         boolean hasExited = false;
 
         do {
             clr();
-            mssgPrin();
+            mostrarMensaxes(current);
 
             System.out.println(">What do you want to do?");
             System.out.println("[1] to mark a message as read");
@@ -292,8 +292,10 @@ public class XeradorMenus {
                     String inpt1 = reads.nextLine();
                     int id1 = Integer.parseInt(inpt1);
 
-                    if (id1 <= current.getMsgbox().size()) {                         //Only if message exists, this is done on all cases here
-                        current.getMsgbox().get(id1).setLido(true);
+                    if (id1 < current.getMsgbox().size()) {                         //Only if message exists, this is done on all cases here
+
+                        marcarMensaxeComoLida(current.getMsgbox().get(id1));
+
                     } else {
                         System.out.println(">This message does not exist");
                     }
@@ -312,8 +314,10 @@ public class XeradorMenus {
                     String inpt3 = reads.nextLine();
                     int id3 = Integer.parseInt(inpt3);
 
-                    if (id3 <= current.getMsgbox().size()) {
-                        current.eliminarMensaxe(current.getMsgbox().get(id3));
+                    if (id3 < current.getMsgbox().size()) {
+
+                        eliminarMensaxe(current, current.getMsgbox().get(id3));
+
                     } else {
                         System.out.println(">This message does not exist");
                     }
@@ -324,22 +328,47 @@ public class XeradorMenus {
                     String inpt4 = reads.nextLine();
                     int id4 = Integer.parseInt(inpt4);
 
-                    if (current.getFriendList().contains(current.getMsgbox().get(id4).getRemitente())) {              //In case of friend deletion after mmsg is sent
+                    if (id4 < current.getFriendList().size()) {
+                        if (current.getFriendList().contains(current.getMsgbox().get(id4).getRemitente())) {              //In case of friend deletion after mmsg is sent
 
-                        if (id4 <= current.getMsgbox().size()) {
-                            System.out.println("Write your reply: ");
-                            String text4 = reads.nextLine();
-                            current.getMsgbox().get(id4).getRemitente().engadirMensaxePrivada(new Mensaxe("[In reply to your message]-> " + text4, current));
+                            if (id4 < current.getMsgbox().size()) {
+                                System.out.println("Write your reply: ");
+                                String text4 = reads.nextLine();
+                                current.getMsgbox().get(id4).getRemitente().engadirMensaxePrivada(new Mensaxe("[In reply to your message]-> " + text4, current));
+                            } else {
+                                System.out.println(">This message does not exist");
+                            }
                         } else {
-                            System.out.println(">This message does not exist");
+                            System.out.println(">That user is not your friend anymore");
                         }
                     } else {
-                        System.out.println(">That user is not your friend anymore");
+                        System.out.println("That is not a valid option");
                     }
                     break;
 
                 case "5":
-                    friendListMssgMenu();
+                    if (current.getFriendList().size() > 0) {
+                        mostrarListaDeAmigos(current);
+
+                        System.out.println(">To which user? [id]");
+                        int id5 = reads.nextInt();                              //Using String read and parsing caused issues
+                        reads.nextLine();
+
+                        if (id5 < current.getFriendList().size()) {
+
+                            escribirMensaxe(current, current.getFriendList().get(id5));
+
+                        } else {
+
+                            System.out.println("That is not a valid option");
+
+                        }
+
+                    } else {
+
+                        System.out.println("You still havent added any friends!");
+
+                    }
                     break;
 
                 case "0":
@@ -354,10 +383,18 @@ public class XeradorMenus {
 
     }
 
+    private void marcarMensaxeComoLida(Mensaxe m) {
+        m.setLido(true);
+    }
+
+    private void eliminarMensaxe(Perfil p, Mensaxe m) {
+        p.getMsgbox().remove(m);
+    }
+
     /**
      * Method to show all of this users messages
      */
-    private void mssgPrin() {
+    public void mostrarMensaxes(Perfil current) {
         int pos = 0;
         for (Mensaxe mensaxe : current.getMsgbox()) {
             System.out.println("->MSSG_ID= " + pos);
@@ -387,26 +424,11 @@ public class XeradorMenus {
     /**
      * Menu for sending messages to friends
      */
-    private void friendListMssgMenu() {
+    private void escribirMensaxe(Perfil remitente, Perfil destinatario) {
         Scanner reads = new Scanner(System.in);
-
-        if (current.getFriendList().size() > 0) {
-            printFriendList();
-
-            System.out.println(">To which user? [id]");
-            String input = reads.nextLine();
-            int id = Integer.parseInt(input);
-
-            if (id <= current.getFriendList().size()) {
-                System.out.println(">Write your message:");
-                String texto = reads.nextLine();
-                current.getFriendList().get(id).engadirMensaxePrivada(new Mensaxe(texto, current));
-            } else {
-                System.out.println("That is not a valid option");
-            }
-        } else {
-            System.out.println(">You still havent added any friends.");
-        }
+        System.out.println(">Write your message:");
+        String texto = reads.nextLine();
+        destinatario.engadirMensaxePrivada(new Mensaxe(texto, remitente));
     }
 
     /**
@@ -417,7 +439,7 @@ public class XeradorMenus {
         Scanner reads = new Scanner(System.in);
 
         do {
-            printFriendList();
+            mostrarListaDeAmigos(current);
 
             System.out.println(">What do you want to do?");
             System.out.println("[1] to delete a friend");
@@ -433,7 +455,26 @@ public class XeradorMenus {
                     break;
 
                 case "2":
-                    friendListMssgMenu();
+                    if (current.getFriendList().size() > 0) {
+                        mostrarListaDeAmigos(current);
+
+                        System.out.println(">To which user? [id]");
+                        int id2 = reads.nextInt();                              //Using String read and parsing caused issues
+                        reads.nextLine();
+
+                        if (id2 < current.getFriendList().size()) {
+
+                            escribirMensaxe(current, current.getFriendList().get(id2));
+
+                        } else {
+                            System.out.println("That is not a valid option");
+                        }
+
+                    } else {
+
+                        System.out.println("You still havent added any friends!");
+
+                    }
                     break;
 
                 case "0":
@@ -516,9 +557,9 @@ public class XeradorMenus {
                     break;
 
                 case "2":
-                    printFriendRequestList();
+                    mostrarSolicitudesDeAmizade(current);
                     break;
-                    
+
                 case "3":
                     friendSuggestions();
                     break;
@@ -533,7 +574,7 @@ public class XeradorMenus {
             }
         } while (!hasExited);
     }
-    
+
     /**
      * For each friend prints a their friendlist
      */
@@ -558,7 +599,7 @@ public class XeradorMenus {
     /**
      * This method allows for visualizing selfs added friends as names
      */
-    private void printFriendList() {
+    public void mostrarListaDeAmigos(Perfil current) {
         Scanner reads = new Scanner(System.in);
         System.out.println(">---------------------------------------------------------------<");
         if (current.getFriendList().size() > 0) {
@@ -576,7 +617,7 @@ public class XeradorMenus {
      * This method shows a list enumerating all users that have sent a yet
      * unanswered request
      */
-    private void printFriendRequestList() {
+    public void mostrarSolicitudesDeAmizade(Perfil current) {
         Scanner reads = new Scanner(System.in);
         if (current.getFriendRequest().size() > 0) {
 
@@ -648,7 +689,7 @@ public class XeradorMenus {
                         System.out.println(">Looks like you still havent added any friends :(");
                     } else {
                         System.out.println(">To which one of your friends inbox would you like to go?");
-                        printFriendList();
+                        mostrarListaDeAmigos(current);
                         input = reads.nextLine();
 
                         if (current.friendListContainsName(input)) {
@@ -820,7 +861,7 @@ public class XeradorMenus {
     private void facerMeGusta(Publicacion publ) {
         if (!publ.getLikes().contains(current)) {
 
-            publ.getLikes().add(current);
+            publ.engadirMeGusta(current);
 
         } else {
 
@@ -846,7 +887,7 @@ public class XeradorMenus {
             switch (input) {
                 case "1":
                     hasExited = true;
-                    pbl.getComments().add(new Comentario(p, text));
+                    pbl.engadirComentario(new Comentario(p, text));
                     break;
             }
 

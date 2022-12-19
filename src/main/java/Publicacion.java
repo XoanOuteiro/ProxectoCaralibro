@@ -66,5 +66,11 @@ public class Publicacion {
     }
     
     //Utility methods
+   public void engadirMeGusta(Perfil autor){
+       this.likes.add(autor);
+   }
    
+   public void engadirComentario(Comentario c){
+       this.comments.add(c);
+   }
 }
