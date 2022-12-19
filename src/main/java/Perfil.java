@@ -18,6 +18,7 @@ public class Perfil {
     private ArrayList<String> friendRequest;
     private ArrayList<Publicacion> inbox;
     private ArrayList<Mensaxe> msgbox;
+    private ArrayList<Evento> hostedEvents;
 
     //Data
     CaraLibroBD data;
@@ -30,6 +31,7 @@ public class Perfil {
         this.friendRequest = new ArrayList<>();
         this.inbox = new ArrayList();
         this.msgbox = new ArrayList();
+        this.hostedEvents = new ArrayList();
     }
 
     /**
@@ -50,6 +52,7 @@ public class Perfil {
         this.friendRequest = new ArrayList<>();
         this.inbox = new ArrayList();
         this.msgbox = new ArrayList();
+        this.hostedEvents = new ArrayList();
     }
 
     //Getters & Setters
@@ -103,6 +106,10 @@ public class Perfil {
 
     public CaraLibroBD getData() {
         return data;
+    }
+
+    public ArrayList<Evento> getHostedEvents() {
+        return hostedEvents;
     }
     
     //Utility methods

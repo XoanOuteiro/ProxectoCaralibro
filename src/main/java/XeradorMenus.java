@@ -670,6 +670,7 @@ public class XeradorMenus {
             System.out.println("[1] to check posts at this inbox");             //add notifs here?
             System.out.println("[2] to make a new post");
             System.out.println("[3] to change inbox directory");
+            System.out.println("[4] to manage events");
             System.out.println("[0] to go back");
 
             input = reads.nextLine();
@@ -701,6 +702,14 @@ public class XeradorMenus {
                             System.out.println(">Whoops! Looks like this user is not in your friend list :(");
 
                         }
+                    }
+                    break;
+
+                case "4":
+                    if (current.getFriendList().size() > 0) {
+                        eventsMenu();
+                    } else {
+                        System.out.println(">You need at least one friend to use events");
                     }
                     break;
 
@@ -755,6 +764,94 @@ public class XeradorMenus {
 
         } while (!hasExited);
 
+    }
+
+    private void eventsMenu() {
+        boolean hasExited = false;
+        Scanner reads = new Scanner(System.in);
+        do {
+            clr();
+            System.out.println(">You are looking at @" + dir.getNome() + "'s events");
+            System.out.println("[1] to host an event (as yourself)");
+            System.out.println("[2] to invite users to (your) event");
+            System.out.println("[3] to check this users events");
+            System.out.println("[0] to go back (go to posts menu to change directory)");
+
+            String input = reads.nextLine();
+
+            switch (input) {
+                case "1":
+                    System.out.println(">Write a topic for your event");
+                    String topic = reads.nextLine();
+                    System.out.println(">Write a date for this event");
+                    String date = reads.nextLine();
+                    current.getHostedEvents().add(new Evento(current, topic, date));
+                    break;
+
+                case "2":
+                    showEvents(current);
+
+                    mostrarListaDeAmigos(current);
+
+                    System.out.println(">To which event do you wish to add a friend? [id]");
+                    int id = reads.nextInt();
+                    reads.nextLine();
+                    
+                    if (id < current.getHostedEvents().size()) {
+                        
+                        System.out.println(">Which user would you like to invite? [name]");
+                        String name = reads.nextLine();
+                        
+                        if(current.friendListContainsName(name)){
+                            
+                        current.getHostedEvents().get(id).getGoers().add(data.buscarPerfil(name));
+                        
+                        } else {
+                            
+                            System.out.println(">That user is not your friend!");
+                            
+                        }
+                        
+                    } else {
+                        
+                        System.out.println(">Not a valid option");
+                        
+                    }
+                    break;
+
+                case "3":
+                    showEvents(dir);
+                    break;
+
+                case "0":
+                    hasExited = true;
+                    break;
+
+                default:
+                    System.out.println("Input not valid, please try again");
+            }
+        } while (!hasExited);
+    }
+
+    private void showEvents(Perfil user) {
+        int i = 0;
+        if (user.getHostedEvents().size() > 0) {
+            for (Evento evento : user.getHostedEvents()) {
+                System.out.println("ID_EVENT = " + i);
+                System.out.println("--->Event host: " + evento.getHost().getNome());
+                System.out.println("->Event topic: " + evento.getTopic());
+                System.out.println("->Event date: " + evento.getDate());
+                System.out.println("---->Event goers<----");
+
+                for (Perfil goer : evento.getGoers()) {
+                    System.out.println("\t@" + goer.getNome());
+                }
+                System.out.println(">------------------------------------------------------<");
+                i++;
+            }
+        } else {
+            System.out.println(">No events here yet");
+        }
     }
 
     private void showPostsMenu() {
