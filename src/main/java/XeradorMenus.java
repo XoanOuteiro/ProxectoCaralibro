@@ -404,6 +404,16 @@ public class XeradorMenus {
             pos++;
             System.out.println(">-----------------------------------------------------------------<");
         }
+        
+        /**
+         * Aclaración, gustounos a idea de que as mensaxes aparecesen coma un chat, amosando o contido do 
+         * array literalmente podemos ver as mensaxes mais recentes de ultima(e dicir , mais cercanas ao 
+         * menu de usuario, de tal maneira que de haber moitas as antigas aparecen moi arriba// non se vexan 
+         * por o lugar alto no que se amosan)
+         * 
+         * De todos modos a opción para amosar "as mensaxes mais recentes primeiro" seria facendo un bucle for
+         * que comece en current.getMssgbox.size() e baixe ata 0
+         */
     }
 
     /**
