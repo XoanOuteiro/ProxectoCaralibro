@@ -15,10 +15,10 @@ import java.util.Scanner;
 public class XeradorMenus {
 
     //Compilation atributes
-    CaraLibroBD data;
-    String input;
-    Perfil current;
-    Perfil dir = current;                                                   //The atribute dir is used to reference on which users inbox we will be posting
+    private CaraLibroBD data;
+    private String input;
+    private Perfil current;
+    private Perfil dir = current;                                                   //The atribute dir is used to reference on which users inbox we will be posting
     
     //Saves part
     ObjectOutputStream out;
