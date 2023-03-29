@@ -142,14 +142,17 @@ public class XeradorMenus {
         } while (!hasChangedMenu);
     }
 
-    public void pecharSesion() {
+    public void pecharSesion() { 
         current = null;
+        
+        
+        saveUserBase();
     }
 
     /**
      * This is the menu for selfs state
      */
-    private void cambiarEstado(Perfil current) {
+    private void cambiarEstado(Perfil current) {  
         Scanner reads = new Scanner(System.in);
         if (current.getEstado() == null) {
 
@@ -181,6 +184,8 @@ public class XeradorMenus {
 
             }
         }
+        
+        saveUserBase();
     }
 
     /**
@@ -220,6 +225,8 @@ public class XeradorMenus {
                     break;
             }
         }
+        
+        saveUserBase();
     }
 
     /**
@@ -259,6 +266,8 @@ public class XeradorMenus {
             } while (!correctRep);
 
         } while (!done);
+        
+        saveUserBase();
     }
 
     /**
@@ -280,12 +289,14 @@ public class XeradorMenus {
             System.out.println(">Logged in as: " + current.getNome());
         }
 
+        
+        saveUserBase();
     }
 
     /**
      * Initial menu for chatting
      */
-    private void mainChatMenu(Perfil current) {
+    private void mainChatMenu(Perfil current) { 
         Scanner reads = new Scanner(System.in);
         boolean hasExited = false;
 
@@ -398,20 +409,26 @@ public class XeradorMenus {
 
         } while (!hasExited);
 
+        
+        saveUserBase();
     }
 
-    private void marcarMensaxeComoLida(Mensaxe m) {
+    private void marcarMensaxeComoLida(Mensaxe m) { 
         m.setLido(true);
+        
+        saveUserBase();
     }
 
-    private void eliminarMensaxe(Perfil p, Mensaxe m) {
+    private void eliminarMensaxe(Perfil p, Mensaxe m) {     
         p.getMsgbox().remove(m);
+        
+        saveUserBase();
     }
 
     /**
      * Method to show all of this users messages
      */
-    public void mostrarMensaxes(Perfil current) {
+    public void mostrarMensaxes(Perfil current) {       
         int pos = 0;
         for (Mensaxe mensaxe : current.getMsgbox()) {
             System.out.println("->MSSG_ID= " + pos);
@@ -440,7 +457,7 @@ public class XeradorMenus {
      *
      * Method to check if a message is read or not
      */
-    private String hasBeenRead(int pos) {
+    private String hasBeenRead(int pos) {    
         String read;
 
         read = current.getMsgbox().get(pos).isLido() ? "Yes" : "No";
@@ -456,6 +473,8 @@ public class XeradorMenus {
         System.out.println(">Write your message:");
         String texto = reads.nextLine();
         destinatario.engadirMensaxePrivada(new Mensaxe(texto, remitente));
+        
+        saveUserBase();
     }
 
     /**
@@ -514,6 +533,9 @@ public class XeradorMenus {
             }
 
         } while (!hasChanged);
+        
+        
+        saveUserBase();
     }
 
     /**
@@ -529,6 +551,8 @@ public class XeradorMenus {
         } else {
             System.out.println(">That user is not your friend already.");
         }
+        
+        saveUserBase();
 
     }
 
@@ -563,6 +587,8 @@ public class XeradorMenus {
             System.out.println(">That user does not exist!");
 
         }
+        
+        saveUserBase();
     }
 
     private void friendRequestMenu() {
@@ -600,6 +626,8 @@ public class XeradorMenus {
                     break;
             }
         } while (!hasExited);
+        
+        saveUserBase();
     }
 
     /**
@@ -680,6 +708,8 @@ public class XeradorMenus {
 
         System.out.println(">Press enter to continue.");
         reads.nextLine();
+        
+        saveUserBase();
     }
 
     /**
@@ -751,6 +781,9 @@ public class XeradorMenus {
             clr();
 
         } while (!hasChangedMenu);
+        
+        
+        saveUserBase();
     }
 
     /**
@@ -791,6 +824,8 @@ public class XeradorMenus {
 
         } while (!hasExited);
 
+        
+        saveUserBase();
     }
 
     private void eventsMenu() {
@@ -858,6 +893,9 @@ public class XeradorMenus {
                     System.out.println("Input not valid, please try again");
             }
         } while (!hasExited);
+        
+        
+        saveUserBase();
     }
 
     private void showEvents(Perfil user) {
@@ -919,6 +957,8 @@ public class XeradorMenus {
             }
 
         } while (!hasExited);
+        
+        saveUserBase();
     }
 
     private void showPosts() {
@@ -933,6 +973,8 @@ public class XeradorMenus {
             System.out.println("\n\n");
             //here will go comments and likes
         }
+        
+        saveUserBase();
     }
 
     private String author(int i) {
@@ -979,6 +1021,8 @@ public class XeradorMenus {
             default:
                 break;
         }
+        
+        saveUserBase();
 
     }
 
@@ -992,6 +1036,8 @@ public class XeradorMenus {
             System.out.println(">You already liked this post");
 
         }
+        
+        saveUserBase();
     }
 
     private void escribirComentario(Publicacion pbl, Perfil p) {
@@ -1017,6 +1063,8 @@ public class XeradorMenus {
 
         } while (!hasExited);
 
+        
+        saveUserBase();
     }
 
     private void showThisLikes(int pos) {
