@@ -27,8 +27,8 @@ public final class CaraLibroBD {
      * 
      * Sets a preloaded base as base
      */
-    public void loadToBase(ArrayList<Perfil> newBase){
-        this.base = newBase;
+    public static void loadToBase(ArrayList<Perfil> newBase){
+        base = newBase;
     }
 
     /**

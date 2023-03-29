@@ -1,4 +1,10 @@
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -13,10 +19,17 @@ public class XeradorMenus {
     String input;
     Perfil current;
     Perfil dir = current;                                                   //The atribute dir is used to reference on which users inbox we will be posting
+    
+    //Saves part
+    ObjectOutputStream out;
+    ObjectInputStream in;
 
     //Construction methods
     public XeradorMenus() {                                                      //Constructor spawns database IF NOT STATIC
         //this.data = new CaraLibroBD();
+        
+        //Load previus userbase
+        loadPrevUserBase();
     }
 
     //Essential menus
@@ -235,6 +248,10 @@ public class XeradorMenus {
                     } else {
                         this.data.engadirPerfil(new Perfil(usrName, psswd));
                         done = true;
+                        
+                        //Save onto saves.txt
+                        saveUserBase();
+                        
                     }
                 } else {
                     System.out.println("-Password confirmation incorrect.");
@@ -1196,5 +1213,54 @@ public class XeradorMenus {
         data.engadirPerfil(new Perfil("testGuy_2", "12345678", "Hiii, heloo", "c:"));
         data.engadirPerfil(new Perfil("testGuyWasTaken", "1", "testGuy :(", "AAAAAAAAAAAA"));
 
+    }
+    
+    
+    
+    //Saves & Loads
+    
+    private void saveUserBase(){
+        try{
+            
+            out = new ObjectOutputStream(new FileOutputStream("saves/base.txt"));
+            
+            out.writeObject(data.base);
+            
+            out.close();
+            
+        }catch(IOException ex){
+            
+            System.out.println("[ERROR][@saveUserBase]: Cant find /saves/base.txt");
+            
+        }
+    }
+    
+    private void loadPrevUserBase() {
+        try{
+            
+            in = new ObjectInputStream(new FileInputStream("saves/base.txt"));
+            
+            try{
+                
+                ArrayList <Perfil> temp = (ArrayList <Perfil>) in.readObject();
+                
+                data.loadToBase(temp);
+                
+            }catch(ClassNotFoundException ex){
+                
+                System.out.println("[ERROR][@loadPrevUserBase]: Class missmatch.");
+                
+            }
+            
+            in.close();
+                
+            
+        }catch(IOException ex){
+            
+            System.out.println("[ERROR][@loadPrevUserBase]: Cant find /saves/base.txt");
+            
+        }
+            
+        
     }
 }
