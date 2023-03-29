@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -5,7 +6,7 @@ import java.util.ArrayList;
  *
  * by @XoanOuteiro & @Samuyo
  */
-public class Publicacion {
+public class Publicacion implements Serializable {
     //Atributes
     private LocalDate data;
     private String texto;

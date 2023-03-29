@@ -1,4 +1,5 @@
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
@@ -6,7 +7,7 @@ import java.util.ArrayList;
  *
  * @author XoanOuteiro & Samuyo
  */
-public class Evento {
+public class Evento implements Serializable{
     
     private Perfil host;
     private ArrayList <Perfil> goers;

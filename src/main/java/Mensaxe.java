@@ -1,11 +1,12 @@
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  *
  * by @XoanOuteiro & @Samuyo
  */
-public class Mensaxe {
+public class Mensaxe implements Serializable {
 
     //Atributes
    private LocalDate data;

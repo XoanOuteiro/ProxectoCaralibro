@@ -19,6 +19,17 @@ public final class CaraLibroBD {
     public static void engadirPerfil(Perfil novoPerfil) {                              //Adding requires a Perfil obj which we will -ALWAYS- create on call
         base.add(novoPerfil);
     }
+    
+    /**
+     * 
+     * @param: ArrayList <Perfil>
+     * 
+     * 
+     * Sets a preloaded base as base
+     */
+    public void loadToBase(ArrayList<Perfil> newBase){
+        this.base = newBase;
+    }
 
     /**
      * 

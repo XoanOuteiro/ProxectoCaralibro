@@ -1,11 +1,12 @@
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * by @XoanOuteiro & @Samuyo
  */
-public class Perfil {
+public class Perfil implements Serializable {
 
     //Atributes
     private String nome;
